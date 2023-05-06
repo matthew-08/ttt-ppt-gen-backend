@@ -5,6 +5,16 @@ const database = {
         editUser() {},
         updateUser() {},
     },
+    ppt: {
+        pptGenerate() {},
+        pptEdit() {},
+    },
+    userPptOutline: {
+        pptOutlineCreate() {},
+        pptOutlineDelete() {},
+        pptOutlineEdit() {},
+        pptOutlineGet() {},
+    },
 }
 
 export default database
