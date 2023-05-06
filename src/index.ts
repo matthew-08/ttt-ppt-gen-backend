@@ -1,8 +1,10 @@
 import makeApp from './makeApp'
-console.log(process.env.PORT)
+import appRoutes from './routes'
 
 const { app, database } = makeApp({})
 
-app.listen()
+app.use('/users', appRoutes.user)
+app.use('/ppt', appRoutes.ppt)
+app.use('/pptOutline', appRoutes.pptOutline)
 
 export { app, database }
