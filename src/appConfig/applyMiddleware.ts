@@ -1,8 +1,10 @@
 import cors from 'cors'
 import type { Application } from 'express'
+import bodyParser from 'body-parser'
+import express from 'express'
 
 const applyMiddleware = (app: Application) => {
-    app.use(cors())
+    app.use(express.json())
     return app
 }
 
