@@ -1,10 +1,10 @@
 import express from 'express'
 import http from 'http'
 import applyMiddleware from './appConfig/applyMiddleware'
-
 import env from './appConfig/env'
+import database from './db/database'
 
-const makeApp = (appDatabase: {}) => {
+const makeApp = (appDatabase: typeof database) => {
     const app = express()
     // Understanding express and how app works
     // Getting the structure of the project set up with routes and MVC pattern
@@ -17,6 +17,7 @@ const makeApp = (appDatabase: {}) => {
     return {
         app,
         appDatabase,
+        server,
     }
 }
 
