@@ -26,6 +26,7 @@
     "@babel/preset-env": "^7.21.5",
     "@types/cors": "^2.8.13",
     "@types/jest": "^29.5.1",
+    "@types/validator": "^13.7.15",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "babel-jest": "^29.5.0",
