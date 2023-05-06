@@ -4,7 +4,7 @@ import applyMiddleware from './appConfig/applyMiddleware'
 
 import env from './appConfig/env'
 
-const makeApp = (database: {}) => {
+const makeApp = (appDatabase: {}) => {
     const app = express()
     // Understanding express and how app works
     // Getting the structure of the project set up with routes and MVC pattern
@@ -16,7 +16,7 @@ const makeApp = (database: {}) => {
 
     return {
         app,
-        database,
+        appDatabase,
     }
 }
 
