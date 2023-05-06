@@ -1,6 +1,8 @@
 import makeApp from './makeApp'
 console.log(process.env.PORT)
 
-const app = makeApp({})
+const { app, database } = makeApp({})
 
-const { server } = app
+app.listen()
+
+export { app, database }
