@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
     return res.status(200).send('ok')
 })
 router.post('/', (req, res) => {
+    const {} = req.body
     return res.status(200).send('ok')
 })
 router.put('/', (req, res) => {
