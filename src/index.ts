@@ -1,12 +1,6 @@
-import express from 'express'
-import http from 'http'
-import cors from 'cors'
-import { Presentation } from 'ts_ppt_text'
-import path from 'path'
-const app = express()
+import makeApp from './makeApp'
+console.log(process.env.PORT)
 
-const pres = new Presentation(path.join(__dirname, 'test.pptx'), __dirname)
+const app = makeApp({})
 
-app.use(cors()) // Add cors middleware
-
-const server = http.createServer(app)
+const { server } = app
