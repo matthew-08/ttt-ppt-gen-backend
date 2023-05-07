@@ -31,4 +31,5 @@ describe('users endpint', () => {
             })
         })
     })
+    describe('user GET')
 })
