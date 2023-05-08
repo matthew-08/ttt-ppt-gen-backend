@@ -9,19 +9,27 @@ const router = Router()
 router.get('/', (req, res) => {
     return res.status(200).send('ok')
 })
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const validationCheck = UserSchema.safeParse(req.body)
     if (!validationCheck.success) {
         const validationError = errorFactory(
             `errors/validation/${validationCheck.error.errors[0].path}`,
             validationCheck.error.errors[0].message,
-            '/users'
+            '/user'
         )
         return res.status(400).json(validationError)
     }
-    const createUser = handleCreateUser(req.body)
+    const userOrError = await handleCreateUser(req.body)
+    if ('message' in userOrError) {
+        const existingEmailError = errorFactory(
+            `errors/validation`,
+            userOrError.message,
+            '/user'
+        )
+        return res.status(400).json(existingEmailError)
+    }
     const newUser = appDatabase.users.createUser()
-    return res.status(200).send('ok')
+    return res.status(200).json(newUser)
 })
 router.put('/', (req, res) => {
     return res.status(200).send('ok')

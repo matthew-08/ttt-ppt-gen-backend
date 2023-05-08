@@ -1,6 +1,11 @@
 const database = {
     users: {
-        createUser() {},
+        createUser() {
+            return {
+                id: '',
+                email: '',
+            }
+        },
         deleteUser() {},
         editUser() {},
         updateUser() {},
