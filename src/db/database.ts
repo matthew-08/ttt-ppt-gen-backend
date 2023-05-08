@@ -4,6 +4,7 @@ const database = {
         deleteUser() {},
         editUser() {},
         updateUser() {},
+        getUser() {},
     },
     ppt: {
         pptGenerate() {},

@@ -19,6 +19,7 @@
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "supertest": "^6.3.3",
     "ts_ppt_text": "^1.2.3",
     "ts-node-dev": "^2.0.0",
