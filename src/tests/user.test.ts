@@ -3,7 +3,7 @@ import { request } from 'http'
 import supertest from 'supertest'
 import { app, server } from '..'
 
-describe('users endpint', () => {
+describe('/user endpoint', () => {
     afterEach(() => {
         server.close()
     })
