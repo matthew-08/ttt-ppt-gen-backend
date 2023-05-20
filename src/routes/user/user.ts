@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import { User, UserSchema } from '../../validationSchema/user'
+import { User, UserSchema } from '../../schema/user'
 import errorFactory from '../../utils/errorFactory'
 import { app, appDatabase } from '../..'
-import { handleCreateUser } from '../../handler/userHandler'
+import { handleCreateUser } from '../../controller/user.controller'
 
 const router = Router()
 

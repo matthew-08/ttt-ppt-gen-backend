@@ -1,4 +1,4 @@
-import { User } from '../validationSchema/user'
+import { User } from '../schema/user'
 import { hash } from 'bcrypt'
 import { appDatabase } from '..'
 import { InternalError } from '../types'

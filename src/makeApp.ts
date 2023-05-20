@@ -3,16 +3,17 @@ import http from 'http'
 import applyMiddleware from './appConfig/applyMiddleware'
 import env from './appConfig/env'
 import database from './db/database'
+import appRoutes from './routes'
 
 const makeApp = (appDatabase: typeof database) => {
     const app = express()
-    // Understanding express and how app works
-    // Getting the structure of the project set up with routes and MVC pattern
     applyMiddleware(app)
+
     const server = http.createServer(app)
     server.listen(env.port, () => {
         console.log(`Server is listening on ${env.port}`)
     })
+    appRoutes(app)
 
     return {
         app,
