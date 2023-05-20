@@ -3,7 +3,10 @@ import { database } from '../db/database'
 
 const handleGetAllTemplates = async (req: Request, res: Response) => {
     const templates = await database.templates.fetchAllTemplates()
-    res.send(200).json(templates)
+    if (!templates) {
+        return res.status(400).end()
+    }
+    res.status(200).send(templates)
 }
 
 export { handleGetAllTemplates }

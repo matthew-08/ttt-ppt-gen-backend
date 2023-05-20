@@ -1,4 +1,4 @@
-import { User } from '../schema/user'
+import { User } from '../schema/user.schema'
 import { hash } from 'bcrypt'
 import { appDatabase } from '..'
 import { InternalError } from '../types'
@@ -8,7 +8,7 @@ const existingEmailCheck = (email: string) => {
     return false
 }
 
-const handleCreateUser = async (
+/* const handleCreateUser = async (
     userInfo: User
 ): Promise<User | InternalError> => {
     const { email, password } = userInfo
@@ -27,3 +27,4 @@ const handleCreateUser = async (
 }
 
 export { handleCreateUser }
+ */
