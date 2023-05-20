@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model field_type {
+  id                 Int                  @id @default(autoincrement())
+  type               String               @db.VarChar(255)
+  ppt_template_field ppt_template_field[]
+}
+
+model ppt_template {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  img                String               @db.VarChar(255)
+  slide_amount       Int
+  ppt_template_field ppt_template_field[]
+  user_ppt_template  user_ppt_template[]
+}
+
+model ppt_template_field {
+  id           Int          @id @default(autoincrement())
+  template_id  Int          @default(autoincrement())
+  field_id     Int          @default(autoincrement())
+  field_type   field_type   @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ppt_template ppt_template @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_ppt_template {
+  id           Int          @id @default(autoincrement())
+  template_id  Int          @default(autoincrement())
+  user_id      Int          @default(autoincrement())
+  ppt_template ppt_template @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users        users        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id                Int                 @id @default(autoincrement())
+  email             String              @unique @db.VarChar(255)
+  passhash          String              @db.VarChar(255)
+  user_ppt_template user_ppt_template[]
+}
