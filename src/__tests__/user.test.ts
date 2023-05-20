@@ -1,5 +1,3 @@
-import { exec } from 'child_process'
-import { request } from 'http'
 import supertest from 'supertest'
 import { app, server } from '..'
 
