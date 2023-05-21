@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import { app, server } from '..'
+import { CreateUserInput } from '../schema/user.schema'
 
 describe('/user endpoint', () => {
     afterEach(() => {
@@ -19,15 +20,34 @@ describe('/user endpoint', () => {
                     .then((res) => console.log(res.header))
             })
         })
-        describe('user enters invalid data', () => {
-            const invalidUser = {
-                email: 'fakemeimaloi',
-                password: 'password',
-            }
-            it('sends a status 400 error code', async () => {
-                await supertest(app).post('/user').send(invalidUser).expect(400)
+        describe('client submits invalid data', () => {
+            describe("given incorrect fields which don't match the schema", () => {
+                const invalidUser = {
+                    email: 'fakemeimaloi',
+                    incorrectField: 'not a correct field',
+                }
+                it.only('sends a status 400 error code', async () => {
+                    await supertest(app)
+                        .post('/api/user')
+                        .send(invalidUser)
+                        .expect(400)
+                })
+            })
+            describe('given values which do not conform to the schema requirements', () => {
+                const invalidUser: CreateUserInput = {
+                    email: 'invalidemail',
+                    password: 'ValidPassword123',
+                    confirmPassword: 'ValidPassword123',
+                }
+                describe('given invalid email', () => {
+                    it.only('sends a status 400 error code', async () => {
+                        await supertest(app)
+                            .post('/api/user')
+                            .send(invalidUser)
+                            .expect(400)
+                    })
+                })
             })
         })
     })
-    describe('user GET')
 })

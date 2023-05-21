@@ -34,5 +34,6 @@ const UserSchema = z.object({
 })
 
 type User = z.infer<typeof UserSchema>
+type CreateUserInput = User['body']
 
-export { User, UserSchema }
+export { User, UserSchema, CreateUserInput }

@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv'
-import config from 'config'
 dotenv.config()
 
 const potentialEnv = {
     port: process.env.PORT as string,
+    jwtSecretKey: process.env.JWT_SECRET_KEY as string,
 }
 
 export const initEnv = <T extends object>(env: T): T => {

@@ -2,6 +2,7 @@ import { Express, Request, Response } from 'express'
 import { handleGetAllTemplates } from '../controller/template.controller'
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
+import { handleCreateUser } from '../controller/user.controller'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck', (req: Request, res: Response) => {
@@ -12,7 +13,7 @@ const appRoutes = (app: Express) => {
 
     app.get('/api/user', validateSchema(UserSchema))
 
-    app.post('/api/user', validateSchema(UserSchema))
+    app.post('/api/user', validateSchema(UserSchema), handleCreateUser)
 }
 
 export default appRoutes
