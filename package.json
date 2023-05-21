@@ -25,6 +25,7 @@
     "supertest": "^6.3.3",
     "ts_ppt_text": "^1.2.3",
     "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4",
     "validator": "^13.9.0",
     "zod": "^3.21.4"
   },
@@ -32,6 +33,7 @@
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
     "@types/bcrypt": "^5.0.0",
+    "@types/config": "^3.3.0",
     "@types/cors": "^2.8.13",
     "@types/express-session": "^1.17.7",
     "@types/jest": "^29.5.1",
