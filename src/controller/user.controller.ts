@@ -2,29 +2,10 @@ import { User } from '../schema/user.schema'
 import { hash } from 'bcrypt'
 import { appDatabase } from '..'
 import { InternalError } from '../types'
+import { Request, Response } from 'express'
 
-const existingEmailCheck = (email: string) => {
-    appDatabase.users.getUser()
-    return false
-}
-
-/* const handleCreateUser = async (
-    userInfo: User
-): Promise<User | InternalError> => {
-    const { email, password } = userInfo
-    if (existingEmailCheck(email)) {
-        const internalError: InternalError = {
-            successful: false,
-            message: 'Email already exists',
-        }
-        return internalError
-    }
-    const hashPass = await hash(password, 10)
-    return {
-        email,
-        password: hashPass,
-    }
+const handleCreateUser = (req: Request, res: Response) => {
+    return res.status(200).send('ok')
 }
 
 export { handleCreateUser }
- */

@@ -11,6 +11,8 @@ const appRoutes = (app: Express) => {
     app.get('/api/template', handleGetAllTemplates)
 
     app.get('/api/user', validateSchema(UserSchema))
+
+    app.post('/api/user', validateSchema(UserSchema))
 }
 
 export default appRoutes
