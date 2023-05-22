@@ -1,13 +1,16 @@
+import { CreateUserInput } from '../schema/user.schema'
 import { getAllTemplates } from '../service/template.service'
+import { getUser } from '../service/user.service'
 import { Template } from '../types'
 
 const database = {
     users: {
-        createUser() {},
-        deleteUser() {},
-        editUser() {},
-        updateUser() {},
-        getUser() {},
+        async createUser(input: CreateUserInput) {
+            const checkExistingUser = await getUser(input)
+            if (!checkExistingUser) {
+                return false
+            } else return true
+        },
     },
     templates: {
         async fetchAllTemplates(): Promise<Template[]> {

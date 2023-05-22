@@ -1,10 +1,25 @@
-import { User } from '../schema/user.schema'
+import { CreateUserInput, User } from '../schema/user.schema'
 import { hash } from 'bcrypt'
 import { appDatabase } from '..'
 import { InternalError } from '../types'
 import { Request, Response } from 'express'
+import { database } from '../db/database'
+import errorFactory from '../utils/errorFactory'
 
-const handleCreateUser = (req: Request, res: Response) => {
+const handleCreateUser = async (
+    req: Request<{}, {}, CreateUserInput>,
+    res: Response
+) => {
+    const newUser = await database.users.createUser(req.body)
+    if (!newUser) {
+        console.log(newUser)
+        const error = errorFactory(
+            'validation',
+            'email already exists',
+            '/api/users'
+        )
+        return res.status(400).send(error)
+    }
     return res.status(200).send('ok')
 }
 

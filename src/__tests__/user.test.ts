@@ -1,23 +1,31 @@
 import supertest from 'supertest'
 import { app, server } from '..'
+import { database } from '../db/database'
 import { CreateUserInput } from '../schema/user.schema'
+import { MockContext, Context, createMockContext } from './__mocks__/context'
+import * as UserService from '../service/user.service'
+import { mock } from 'node:test'
+import { mockClear } from 'jest-mock-extended'
 
 describe('/user endpoint', () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
     afterEach(() => {
         server.close()
     })
     describe('users POST', () => {
         describe('user enters valid data (validation checks passed)', () => {
-            const validUser = {
+            const validUser: CreateUserInput = {
                 email: 'avalidemail@gmail.com',
                 password: 'ThisIsAValidPassword*#33',
+                confirmPassword: 'ThisIsAValidPassword*#33',
             }
             it('returns a 200 status code', () => {
                 return supertest(app)
-                    .post('/user')
+                    .post('/api/user')
                     .send(validUser)
                     .expect(200)
-                    .then((res) => console.log(res.header))
             })
         })
         describe('client submits invalid data', () => {
@@ -26,27 +34,53 @@ describe('/user endpoint', () => {
                     email: 'fakemeimaloi',
                     incorrectField: 'not a correct field',
                 }
-                it.only('sends a status 400 error code', async () => {
+                it('sends a status 400 error code', async () => {
                     await supertest(app)
                         .post('/api/user')
                         .send(invalidUser)
                         .expect(400)
                 })
             })
-            describe('given values which do not conform to the schema requirements', () => {
+            describe('given invalid email', () => {
                 const invalidUser: CreateUserInput = {
-                    email: 'invalidemail',
-                    password: 'ValidPassword123',
-                    confirmPassword: 'ValidPassword123',
+                    confirmPassword: 'Password123?',
+                    password: 'Password123?',
+                    email: 'user123.com',
                 }
-                describe('given invalid email', () => {
-                    it.only('sends a status 400 error code', async () => {
-                        await supertest(app)
-                            .post('/api/user')
-                            .send(invalidUser)
-                            .expect(400)
-                    })
+                it('sends a status 400 error code', async () => {
+                    await supertest(app)
+                        .post('/api/user')
+                        .send(invalidUser)
+                        .expect(400)
                 })
+            })
+            describe('given invalid password', () => {
+                const invalidUser: CreateUserInput = {
+                    confirmPassword: 'pass',
+                    password: 'pass',
+                    email: 'user123@gmail.com',
+                }
+                it('sends a status 400 error code', async () => {
+                    await supertest(app)
+                        .post('/api/user')
+                        .send(invalidUser)
+                        .expect(400)
+                })
+            })
+        })
+        describe('User enters an email which already exists', () => {
+            const validUser: CreateUserInput = {
+                confirmPassword: 'Password123@g',
+                password: 'Password123@g',
+                email: 'user123@gmail.com',
+            }
+
+            it('sends a status 400 error code', async () => {
+                jest.spyOn(UserService, 'getUser').mockResolvedValue(null)
+                await supertest(app)
+                    .post('/api/user')
+                    .send(validUser)
+                    .expect(400)
             })
         })
     })
