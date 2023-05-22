@@ -7,7 +7,7 @@ const database = {
     users: {
         async createUser(input: CreateUserInput) {
             const userExists = await getUser(input)
-            if (!userExists) {
+            if (userExists) {
                 return false
             }
             const user = await createNewUser(input)
