@@ -16,20 +16,31 @@ describe('/user endpoint', () => {
     })
     describe('users POST', () => {
         describe('user enters valid data (validation checks passed)', () => {
+            beforeEach(() => {
+                jest.spyOn(UserService, 'getUser').mockResolvedValue({
+                    email: 'avalidemail@gmail.com',
+                    id: 2,
+                    passhash: '1',
+                })
+            })
             const validUser: CreateUserInput = {
                 email: 'avalidemail@gmail.com',
                 password: 'ThisIsAValidPassword*#33',
                 confirmPassword: 'ThisIsAValidPassword*#33',
             }
-            jest.spyOn(UserService, 'getUser').mockResolvedValue({
-                email: 'avalidemail@gmail.com',
-                id: 2,
-            })
             it('returns a 200 status code', () => {
                 return supertest(app)
                     .post('/api/user')
                     .send(validUser)
                     .expect(200)
+            })
+            it('sets the authorization header', () => {
+                return supertest(app)
+                    .post('/api/user')
+                    .send(validUser)
+                    .then((res) => {
+                        expect(res.headers.authorization).toBeDefined()
+                    })
             })
         })
         describe('client submits invalid data', () => {

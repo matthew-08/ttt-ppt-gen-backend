@@ -6,8 +6,8 @@ import { Template } from '../types'
 const database = {
     users: {
         async createUser(input: CreateUserInput) {
-            const checkExistingUser = await getUser(input)
-            if (!checkExistingUser) {
+            const userExists = await getUser(input)
+            if (!userExists) {
                 return false
             } else return true
         },

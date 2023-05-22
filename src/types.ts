@@ -4,13 +4,13 @@ export type InternalError = {
 }
 
 export type TemplateFields = {
-    type: 'question' | 'answer' | 'additional'
+    type: string
 }
 
 export type Template = {
     id: number
     name: string
     img: string
-    slideAmount: string
+    slideAmount: number
     templateFields: TemplateFields[]
 }
