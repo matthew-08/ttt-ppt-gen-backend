@@ -1,11 +1,7 @@
 import supertest from 'supertest'
 import { app, server } from '..'
-import { database } from '../db/database'
 import { CreateUserInput } from '../schema/user.schema'
-import { MockContext, Context, createMockContext } from './__mocks__/context'
 import * as UserService from '../service/user.service'
-import { mock } from 'node:test'
-import { mockClear } from 'jest-mock-extended'
 
 describe('/user endpoint', () => {
     beforeEach(() => {
@@ -22,24 +18,27 @@ describe('/user endpoint', () => {
                     id: 2,
                     passhash: '1',
                 })
+                jest.spyOn(UserService, 'createNewUser').mockResolvedValue({
+                    id: 1,
+                })
             })
             const validUser: CreateUserInput = {
                 email: 'avalidemail@gmail.com',
                 password: 'ThisIsAValidPassword*#33',
                 confirmPassword: 'ThisIsAValidPassword*#33',
             }
-            it('returns a 200 status code', () => {
-                return supertest(app)
+            it('returns a 200 status code', async () => {
+                await supertest(app)
                     .post('/api/user')
                     .send(validUser)
                     .expect(200)
             })
-            it('sets the authorization header', () => {
+            it('returns an access token', () => {
                 return supertest(app)
                     .post('/api/user')
                     .send(validUser)
                     .then((res) => {
-                        expect(res.headers.authorization).toBeDefined()
+                        expect(res.body.accessToken).toBeDefined()
                     })
             })
         })

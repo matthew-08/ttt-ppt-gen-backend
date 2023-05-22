@@ -22,6 +22,7 @@ const handleCreateUser = async (
         )
         return res.status(400).send(error)
     }
+    console.log('test')
     const jwt = await signJwt(newUser, {
         expiresIn: appEnv.accessTokenTTL,
     })
