@@ -1,6 +1,6 @@
 import { CreateUserInput } from '../schema/user.schema'
 import { getAllTemplates } from '../service/template.service'
-import { getUser } from '../service/user.service'
+import { createNewUser, getUser } from '../service/user.service'
 import { Template } from '../types'
 
 const database = {
@@ -9,7 +9,9 @@ const database = {
             const userExists = await getUser(input)
             if (!userExists) {
                 return false
-            } else return true
+            }
+            const user = await createNewUser(input)
+            return user
         },
     },
     templates: {

@@ -10,7 +10,7 @@ const getUser = async (input: CreateUserInput) => {
     })
 }
 
-const createUser = async (input: CreateUserInput) => {
+const createNewUser = async (input: CreateUserInput) => {
     const hashPass = await hashPassword(input.password)
 
     const newUser = await prismaClient.users.create({
@@ -24,4 +24,4 @@ const createUser = async (input: CreateUserInput) => {
     }
 }
 
-export { getUser, createUser }
+export { getUser, createNewUser }
