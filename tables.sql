@@ -9,15 +9,16 @@ CREATE TABLE ppt_template (
     name VARCHAR(255)
 );
 
+c
 CREATE TABLE field_type (
     id SERIAL PRIMARY KEY,
     type VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE ppt_template_field (
-    template_id SERIAL REFERENCES ppt_template(id) NOT NULL
-    field_id SERIAL REFERENCES field_type(id) NOT NULL,
-    PRIMARY SERIAL KEY(template_id, field_id)
+    id SERIAL PRIMARY KEY
+    template_id SERIAL REFERENCES ppt_template(id) NOT NULL,
+    field_id SERIAL REFERENCES field_type(id) NOT NULL
 );
 
 CREATE TABLE user_ppt_template (
