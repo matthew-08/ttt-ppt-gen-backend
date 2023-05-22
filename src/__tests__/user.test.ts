@@ -21,6 +21,10 @@ describe('/user endpoint', () => {
                 password: 'ThisIsAValidPassword*#33',
                 confirmPassword: 'ThisIsAValidPassword*#33',
             }
+            jest.spyOn(UserService, 'getUser').mockResolvedValue({
+                email: 'avalidemail@gmail.com',
+                id: 2,
+            })
             it('returns a 200 status code', () => {
                 return supertest(app)
                     .post('/api/user')
