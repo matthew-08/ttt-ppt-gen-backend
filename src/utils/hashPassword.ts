@@ -4,4 +4,7 @@ import appEnv from '../appConfig/env'
 
 const hashPassword = async (plaintextPass: string) => {
     const hashedPass = await hash(plaintextPass, Number(appEnv.saltRounds))
+    return hashedPass
 }
+
+export { hashPassword }
