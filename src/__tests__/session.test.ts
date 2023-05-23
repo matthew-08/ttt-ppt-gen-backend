@@ -38,10 +38,27 @@ describe('/api/session', () => {
             })
         })
         describe('Given valid schema', () => {
+            beforeEach(() => {
+                jest.spyOn(jwtModule, 'verifyJwt').mockReturnValue({
+                    decodedPayload: {
+                        id: 2,
+                    },
+                    expired: false,
+                    valid: true,
+                })
+            })
             it('returns status code 200', async () => {
                 await supertest(app)
                     .get('/api/session')
                     .set('Authorization', 'Bearer')
+            })
+            it('returns the users id', async () => {
+                await supertest(app)
+                    .get('/api/session')
+                    .set('Authorization', 'Bearer')
+                    .then((res) => {
+                        expect(res.body.id).toBe(2)
+                    })
             })
         })
     })
