@@ -3,6 +3,7 @@ import { handleGetAllTemplates } from '../controller/template.controller'
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
 import { handleCreateUser } from '../controller/user.controller'
+import { SessionSchema } from '../schema/session.schema'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck', (req: Request, res: Response) => {
@@ -14,6 +15,8 @@ const appRoutes = (app: Express) => {
     app.get('/api/user', validateSchema(UserSchema))
 
     app.post('/api/user', validateSchema(UserSchema), handleCreateUser)
+
+    app.get('/api/session', validateSchema(SessionSchema))
 }
 
 export default appRoutes

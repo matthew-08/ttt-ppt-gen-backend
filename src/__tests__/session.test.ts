@@ -1,0 +1,34 @@
+import supertest from 'supertest'
+import { app, server } from '..'
+
+describe('/api/session', () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    afterEach(() => {
+        server.close()
+    })
+    describe('GET', () => {
+        describe('Given invalid schema', () => {
+            describe('Given request with no auth header', () => {
+                it('returns status code 400', async () => {
+                    await supertest(app).get('/api/session').expect(400)
+                })
+            })
+            describe('Given request with invalid auth header format', () => {
+                it('returns status code 400', async () => {
+                    await supertest(app)
+                        .get('/api/session')
+                        .set('Authorization', 'TYPo')
+                })
+            })
+        })
+        describe('Given valid schema', () => {
+            it('returns status code 200', async () => {
+                await supertest(app)
+                    .get('/api/session')
+                    .set('Authorization', 'Bearer')
+            })
+        })
+    })
+})
