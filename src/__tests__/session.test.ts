@@ -23,6 +23,14 @@ describe('/api/session', () => {
                 })
             })
         })
+        describe('Given expired JWT', () => {
+            it('Returns a 401 status code', async () => {
+                await supertest(app)
+                    .get('/api/session')
+                    .set('Authorization', 'Bearer')
+                    .expect(401)
+            })
+        })
         describe('Given valid schema', () => {
             it('returns status code 200', async () => {
                 await supertest(app)
