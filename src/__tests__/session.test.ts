@@ -1,5 +1,6 @@
 import supertest from 'supertest'
 import { app, server } from '..'
+import * as jwtModule from '../utils/jwt'
 
 describe('/api/session', () => {
     beforeEach(() => {
@@ -25,6 +26,11 @@ describe('/api/session', () => {
         })
         describe('Given expired JWT', () => {
             it('Returns a 401 status code', async () => {
+                jest.spyOn(jwtModule, 'verifyJwt').mockReturnValue({
+                    decodedPayload: null,
+                    expired: true,
+                    valid: false,
+                })
                 await supertest(app)
                     .get('/api/session')
                     .set('Authorization', 'Bearer')

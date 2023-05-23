@@ -1,6 +1,14 @@
 import { Request, Response } from 'express'
 
-const handleGetSession = (req: Request, res: Response) => {
+const handleGetSession = (
+    req: Request,
+    res: Response<
+        {},
+        {
+            id: number
+        }
+    >
+) => {
     return res.status(200).send('OK')
 }
 
