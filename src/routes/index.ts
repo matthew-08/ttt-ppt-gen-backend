@@ -12,12 +12,15 @@ const appRoutes = (app: Express) => {
         return res.status(200).send('OK')
     })
 
+    //TEMPLATES
     app.get('/api/template', handleGetAllTemplates)
+    app.post('/api/template')
 
+    //USER
     app.get('/api/user', validateSchema(UserSchema))
-
     app.post('/api/user', validateSchema(UserSchema), handleCreateUser)
 
+    //SESSION
     app.get(
         '/api/session',
         validateSchema(SessionSchema),
