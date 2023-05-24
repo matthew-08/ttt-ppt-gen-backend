@@ -1,7 +1,4 @@
-import { CreateUserInput, User } from '../schema/user.schema'
-import { hash } from 'bcrypt'
-import { appDatabase } from '..'
-import { InternalError } from '../types'
+import { CreateUserInput } from '../schema/user.schema'
 import { Request, Response } from 'express'
 import { database } from '../db/database'
 import errorFactory from '../utils/errorFactory'
@@ -14,7 +11,6 @@ const handleCreateUser = async (
 ) => {
     const newUser = await database.users.createUser(req.body)
     if (!newUser) {
-        console.log(newUser)
         const error = errorFactory(
             'validation',
             'email already exists',
@@ -22,7 +18,6 @@ const handleCreateUser = async (
         )
         return res.status(400).send(error)
     }
-    console.log('test')
     const jwt = await signJwt(newUser, {
         expiresIn: appEnv.accessTokenTTL,
     })

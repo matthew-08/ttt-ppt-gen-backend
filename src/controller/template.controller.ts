@@ -9,4 +9,6 @@ const handleGetAllTemplates = async (req: Request, res: Response) => {
     res.status(200).send(templates)
 }
 
-export { handleGetAllTemplates }
+const handleCreateTemplate = async (req: Request, res: Response) => {}
+
+export { handleGetAllTemplates, handleCreateTemplate }
