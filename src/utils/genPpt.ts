@@ -135,6 +135,8 @@ const handleGenTemplate = async <T extends (typeof templates)[number]['id']>(
         const { format } = selectedTemplate
         writeToSlides(slides, userTemplate)
         slides.forEach((slide) => console.log(slide.textNodes))
+        presentation.applySlideChanges()
+        presentation.generateNewPPT(path.join(__dirname, `../output/temp`))
     }, 1000)
 }
 
@@ -144,7 +146,7 @@ const testArray: UserTemplate[] = Array(30).fill({
     additional: 'test123',
 })
 
-handleGenTemplate(5, testArray)
+handleGenTemplate(2, testArray)
 
 /*
     function handleGenPpt(templateId) {

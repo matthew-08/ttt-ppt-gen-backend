@@ -1,11 +1,16 @@
 import { Express, Request, Response } from 'express'
-import { handleGetAllTemplates } from '../controller/template.controller'
+import {
+    handleCreateTemplate,
+    handleGetAllTemplates,
+} from '../controller/template.controller'
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
 import { handleCreateUser } from '../controller/user.controller'
 import { SessionSchema } from '../schema/session.schema'
 import { deserializeUser } from '../middleware/deserializeUser'
 import { handleGetSession } from '../controller/session.controller'
+import { isTemplateLiteral } from 'typescript'
+import { TemplateSchema } from '../schema/template.schema'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck', (req: Request, res: Response) => {
@@ -14,7 +19,12 @@ const appRoutes = (app: Express) => {
 
     //TEMPLATES
     app.get('/api/template', handleGetAllTemplates)
-    app.post('/api/template')
+
+    app.post(
+        '/api/template',
+        validateSchema(TemplateSchema),
+        handleCreateTemplate
+    )
 
     //USER
     app.get('/api/user', validateSchema(UserSchema))
