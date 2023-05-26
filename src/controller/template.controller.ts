@@ -16,7 +16,9 @@ const handleCreateTemplate = async (
     res: Response
 ) => {
     const { templateId, templateInput } = req.body
+    console.log(templateInput)
     await handleGenTemplate(templateId, templateInput)
+    console.log('handler finished')
     const filepath = path.join(__dirname, '../output/temp.pptx')
     res.status(200).download(filepath)
 }

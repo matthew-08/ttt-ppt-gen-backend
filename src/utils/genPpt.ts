@@ -1,7 +1,6 @@
 import path from 'path'
 import { Presentation } from 'ts_ppt_text'
 import Slide from 'ts_ppt_text/dist/slide'
-import * as fs from 'fs/promises'
 
 type UserTemplate = {
     readonly question?: string | undefined
@@ -112,7 +111,7 @@ const writeHandler = (
         }
     })
     if (template.id === 4) {
-        slide.editTextNode(2, ' ')
+        slide.editTextNode('2', ' ')
     }
 }
 
@@ -139,33 +138,10 @@ export const handleGenTemplate = async <
     }
     const presentation = loadTemplate(selectedTemplate.name)
 
-    setTimeout(async () => {
-        const slides = await presentation
-            .getSlides()
-            .then((res) => extractQuestionSlides(res))
-        writeToSlides(slides, userTemplate, selectedTemplate)
-        presentation.applySlideChanges()
-        presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
-    }, 2000)
+    const slides = await presentation
+        .getSlides()
+        .then((res) => extractQuestionSlides(res))
+    writeToSlides(slides, userTemplate, selectedTemplate)
+    presentation.applySlideChanges()
+    await presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
 }
-
-const testArray: UserTemplate[] = Array(30).fill({
-    question: 'TEST 5',
-    answer: 'TEST 5',
-    additional: 'TEST 5',
-})
-
-handleGenTemplate(1, testArray)
-
-const rmDir = async (name: string) => {
-    await fs.rm(path.join(__dirname, `../ppt/tmp/${name}/_ppt-temp_/`), {
-        recursive: true,
-        retryDelay: 50,
-    })
-}
-
-/*
-    function handleGenPpt(templateId) {
-        const template = templateId
-    }
- */
