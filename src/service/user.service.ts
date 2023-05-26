@@ -2,10 +2,10 @@ import { prismaClient } from '../db/prisma'
 import { CreateUserInput } from '../schema/user.schema'
 import { hashPassword } from '../utils/hashPassword'
 
-const getUser = async (input: CreateUserInput) => {
-    return await prismaClient.users.findFirst({
+const getUser = async (input: CreateUserInput | string) => {
+    return await prismaClient.users.findUnique({
         where: {
-            email: input.email,
+            email: typeof input === 'string' ? input : input.email,
         },
     })
 }
