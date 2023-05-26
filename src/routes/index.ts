@@ -6,9 +6,12 @@ import {
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
 import { handleCreateUser } from '../controller/user.controller'
-import { SessionSchema } from '../schema/session.schema'
+import { CreateSessionSchema, SessionSchema } from '../schema/session.schema'
 import { deserializeUser } from '../middleware/deserializeUser'
-import { handleGetSession } from '../controller/session.controller'
+import {
+    handleCreateSession,
+    handleGetSession,
+} from '../controller/session.controller'
 import { isTemplateLiteral } from 'typescript'
 import { TemplateSchema } from '../schema/template.schema'
 import validateTemplate from '../middleware/validateTemplate'
@@ -38,6 +41,11 @@ const appRoutes = (app: Express) => {
         validateSchema(SessionSchema),
         deserializeUser,
         handleGetSession
+    )
+    app.post(
+        '/api/session',
+        validateSchema(CreateSessionSchema),
+        handleCreateSession
     )
 }
 

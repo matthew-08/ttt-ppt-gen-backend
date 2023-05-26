@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { UserCreateSessionInput } from '../schema/session.schema'
 
 const handleGetSession = (
     req: Request,
@@ -17,4 +18,9 @@ const handleGetSession = (
     return res.status(200).send(res.locals.user)
 }
 
-export { handleGetSession }
+const handleCreateSession = (
+    req: Request<{}, {}, UserCreateSessionInput>,
+    res: Response
+) => {}
+
+export { handleGetSession, handleCreateSession }
