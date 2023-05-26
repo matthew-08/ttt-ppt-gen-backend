@@ -1,6 +1,11 @@
 import supertest from 'supertest'
 import { app, server } from '..'
 import * as jwtModule from '../utils/jwt'
+import * as passCompare from '../utils/passCompare'
+import * as userService from '../service/user.service'
+import { UserCreateSessionInput } from '../schema/session.schema'
+
+const sessionEndpint = '/api/session'
 
 describe('/api/session', () => {
     beforeEach(() => {
@@ -59,6 +64,40 @@ describe('/api/session', () => {
                     .then((res) => {
                         expect(res.body.id).toBe(2)
                     })
+            })
+        })
+    })
+    describe('POST', () => {
+        describe('Given incorrect password', () => {
+            it('returns a status code 400', async () => {
+                jest.spyOn(passCompare, 'passCompare').mockRejectedValue(false)
+                await supertest(app).post('/api/session/').expect(400)
+            })
+        })
+        describe('Given invalid (nonexistant) email', () => {
+            it('returns a status code 400', async () => {
+                jest.spyOn(userService, 'getUser').mockResolvedValue(null)
+                await supertest(app).post('/api/session').expect(400)
+            })
+        })
+        describe('Given valid data', () => {
+            const validUser: UserCreateSessionInput = {
+                email: 'validuser@gmail.com',
+                password: 'valIdPasWor13d?',
+            }
+            beforeEach(() => {
+                jest.spyOn(passCompare, 'passCompare').mockResolvedValue(true)
+                jest.spyOn(userService, 'getUser').mockResolvedValue({
+                    email: 'test@gmail.com',
+                    id: 3,
+                    passhash: 'passhash',
+                })
+            })
+            it('returns a status code 200', async () => {
+                await supertest(app)
+                    .post('/api/session')
+                    .send(validUser)
+                    .expect(200)
             })
         })
     })

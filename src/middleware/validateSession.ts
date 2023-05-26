@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { database } from '../db/database'
 import { UserCreateSessionInput } from '../schema/session.schema'
 import { compare } from 'bcrypt'
+import { passCompare } from '../utils/passCompare'
 
 const validateSession = async (
     req: Request<{}, {}, UserCreateSessionInput>,
@@ -13,14 +14,11 @@ const validateSession = async (
     if (!user) {
         res.status(400).send('Invalid email')
     } else {
-        try {
-            const pass = await compare(plaintextPassword, user.passhash)
-            if (!pass) {
-                return res.status(400).send('Invalid password')
-            }
+        const valid = await passCompare(plaintextPassword, user.passhash)
+        if (valid) {
             next()
-        } catch (error) {
-            return res.status(400).send('Invalid password')
+        } else {
+            res.status(400).send('Invalid password')
         }
     }
 }
