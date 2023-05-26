@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { database } from '../db/database'
 import { UserCreateSessionInput } from '../schema/session.schema'
-import { compare } from 'bcrypt'
 import { passCompare } from '../utils/passCompare'
 
 const validateSession = async (
@@ -16,6 +15,7 @@ const validateSession = async (
     } else {
         const valid = await passCompare(plaintextPassword, user.passhash)
         if (valid) {
+            res.locals.id = user.id
             next()
         } else {
             res.status(400).send('Invalid password')
