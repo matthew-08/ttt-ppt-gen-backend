@@ -1,5 +1,5 @@
 import { CreateUserInput } from '../schema/user.schema'
-import { getAllTemplates } from '../service/template.service'
+import { getAllTemplates, getSingleTemplate } from '../service/template.service'
 import { createNewUser, getUser } from '../service/user.service'
 import { Template } from '../types'
 
@@ -30,6 +30,9 @@ const database = {
                     }
                 }
             )
+        },
+        async getTemplate(templateId: number): Promise<Template | null> {
+            return await getSingleTemplate(templateId)
         },
     },
 }

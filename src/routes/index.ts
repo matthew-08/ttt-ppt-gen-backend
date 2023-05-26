@@ -11,6 +11,7 @@ import { deserializeUser } from '../middleware/deserializeUser'
 import { handleGetSession } from '../controller/session.controller'
 import { isTemplateLiteral } from 'typescript'
 import { TemplateSchema } from '../schema/template.schema'
+import validateTemplate from '../middleware/validateTemplate'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck', (req: Request, res: Response) => {
@@ -23,6 +24,7 @@ const appRoutes = (app: Express) => {
     app.post(
         '/api/template',
         validateSchema(TemplateSchema),
+        validateTemplate,
         handleCreateTemplate
     )
 

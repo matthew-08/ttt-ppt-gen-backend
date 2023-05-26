@@ -17,4 +17,16 @@ const getAllTemplates = async () => {
     return templates
 }
 
-export { getAllTemplates }
+const getSingleTemplate = async (templateId: number) => {
+    const template = await prismaClient.ppt_template.findUnique({
+        where: {
+            id: templateId,
+        },
+        include: {
+            ppt_template_field: true,
+        },
+    })
+    return template
+}
+
+export { getAllTemplates, getSingleTemplate }
