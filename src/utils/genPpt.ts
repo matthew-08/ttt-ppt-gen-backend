@@ -67,6 +67,10 @@ const loadTemplate = (name: string) => {
     )
 }
 
+const reload = (pres: Presentation) => {
+    pres.generateTempFile()
+}
+
 const extractQuestionSlides = (slides: Slide[]) => {
     return slides.filter((slide) => {
         const textNodes = Object.values(slide.textNodes).find(
@@ -106,7 +110,10 @@ const writeHandler = (
     const keys = Object.keys(userTemplate) as unknown as (keyof UserTemplate)[]
     keys.forEach((key) => {
         const id = template['format'][key]
+        console.log('test')
         if (id) {
+            console.log('finished editing node')
+            console.log(userTemplate[key])
             slide.editTextNode(id.toString(), userTemplate[key] as string)
         }
     })
@@ -137,11 +144,24 @@ export const handleGenTemplate = async <
         return
     }
     const presentation = loadTemplate(selectedTemplate.name)
+    await presentation.generateTempFile()
+    await presentation.extractSlides()
 
+    presentation.getSlides().then((res) => {
+        res.length
+        res.forEach((s) => {
+            console.log(s.textNodes)
+        })
+    })
+    console.log('TEST DONE')
     const slides = await presentation
         .getSlides()
         .then((res) => extractQuestionSlides(res))
     writeToSlides(slides, userTemplate, selectedTemplate)
-    presentation.applySlideChanges()
+    slides.forEach((slide) => {
+        console.log(slide.textNodes)
+    })
+    await presentation.applySlideChanges()
+    console.time('applied slide hanges')
     await presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
 }

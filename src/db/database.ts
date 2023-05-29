@@ -1,3 +1,4 @@
+import { UserCreateSessionInput } from '../schema/session.schema'
 import { CreateUserInput } from '../schema/user.schema'
 import { getAllTemplates, getSingleTemplate } from '../service/template.service'
 import { createNewUser, getUser } from '../service/user.service'
@@ -13,11 +14,18 @@ const database = {
             const user = await createNewUser(input)
             return user
         },
+        async fetchUser(email: string) {
+            const user = await getUser(email)
+            if (!user) {
+                return false
+            }
+            return user
+        },
     },
     templates: {
         async fetchAllTemplates(): Promise<Template[]> {
             const templates = await getAllTemplates()
-            return templates.map(
+            const t = templates.map(
                 ({ id, name, img, ppt_template_field, slide_amount }) => {
                     return {
                         id,
@@ -30,9 +38,11 @@ const database = {
                     }
                 }
             )
+            return t.filter((t) => t.id !== 3)
         },
-        async getTemplate(templateId: number): Promise<Template | null> {
-            return await getSingleTemplate(templateId)
+        async getTemplate(templateId: number) {
+            const template = await getSingleTemplate(templateId)
+            return template
         },
     },
 }

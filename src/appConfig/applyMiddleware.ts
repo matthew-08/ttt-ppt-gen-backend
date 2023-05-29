@@ -5,6 +5,11 @@ import express from 'express'
 
 const applyMiddleware = (app: Application) => {
     app.use(express.json())
+    app.use(
+        cors({
+            origin: '*',
+        })
+    )
     return app
 }
 
