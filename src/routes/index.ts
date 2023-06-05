@@ -12,9 +12,9 @@ import {
     handleCreateSession,
     handleGetSession,
 } from '../controller/session.controller'
-import { isTemplateLiteral } from 'typescript'
 import { TemplateSchema } from '../schema/template.schema'
 import validateTemplate from '../middleware/validateTemplate'
+import { validateSession } from '../middleware/validateSession'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck', (req: Request, res: Response) => {
@@ -45,6 +45,7 @@ const appRoutes = (app: Express) => {
     app.post(
         '/api/session',
         validateSchema(CreateSessionSchema),
+        validateSession,
         handleCreateSession
     )
 }
