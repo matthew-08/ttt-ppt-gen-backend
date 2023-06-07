@@ -3,6 +3,7 @@ import { database } from '../db/database'
 import { UserTemplateInput } from '../schema/template.schema'
 import path from 'path'
 import { handleGenTemplate } from '../utils/genPpt'
+
 const handleGetAllTemplates = async (req: Request, res: Response) => {
     const templates = await database.templates.fetchAllTemplates()
     if (!templates) {
