@@ -22,28 +22,34 @@ const appRoutes = (app: Express) => {
     })
 
     //TEMPLATES
-    app.get('/api/template', handleGetAllTemplates)
+    app.get('/api/templates', handleGetAllTemplates)
 
     app.post(
-        '/api/template',
+        '/api/templates',
         validateSchema(TemplateSchema),
         validateTemplate,
         handleCreateTemplate
     )
 
     //USER
-    app.get('/api/user', validateSchema(UserSchema))
-    app.post('/api/user', validateSchema(UserSchema), handleCreateUser)
+    app.get('/api/users', validateSchema(UserSchema))
+    app.post('/api/users', validateSchema(UserSchema), handleCreateUser)
+    
+    //USER/:ID/TEMPLATES
+    //USER/:ID/TEMPLATES/:ID
+    app.get('/api/users/:id/templates')
+    app.get('/api/users/:id/templates/:id')
+    app.post('/api/users/:id/templates/:id')
 
     //SESSION
     app.get(
-        '/api/session',
+        '/api/sessions',
         validateSchema(SessionSchema),
         deserializeUser,
         handleGetSession
     )
     app.post(
-        '/api/session',
+        '/api/sessions',
         validateSchema(CreateSessionSchema),
         validateSession,
         handleCreateSession

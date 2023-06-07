@@ -1,3 +1,5 @@
+import { UserTemplateInput } from "./schema/template.schema"
+
 export type InternalError = {
     successful: boolean
     message: string
@@ -13,4 +15,8 @@ export type Template = {
     img: string
     slideAmount: number
     templateFields: TemplateFields[]
+}
+
+export interface UserCreateTemplateInput extends UserTemplateInput {
+    userId: number
 }
