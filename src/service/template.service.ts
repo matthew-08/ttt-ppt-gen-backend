@@ -72,8 +72,16 @@ export const createUserTemplate = async ({
 }
 
 export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
-    return await prismaClient.user_ppt_template.findMany({
+    console.log(id)
+    const test = await prismaClient.user_ppt_template.findMany({
+        where: {
+            user_id: id,
+        },
         select: {
+            user_id: true,
+            id: true,
+            created_on: true,
+            times_generated: true,
             ppt_template: {
                 select: {
                     id: true,
@@ -83,6 +91,9 @@ export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
             },
         },
     })
+    console.log('TEST')
+    console.log(test)
+    return test
 }
 
 export { getAllTemplates, getSingleTemplate }

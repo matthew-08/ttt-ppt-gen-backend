@@ -25,8 +25,8 @@ export type GetAllUserTemplatesInput = {
     id: number
 }
 
-export type GetAllUserTemplateResponse = {
-    userTemplates: [{}]
+export type GetAllUserTemplatesResponse = {
+    userTemplates: UserTemplateResponse[]
 }
 
 export type UserTemplateResponse = {
@@ -35,10 +35,9 @@ export type UserTemplateResponse = {
         id: number
         name: string
     }
-    userTemplateInfo: {
-        createdOn: string
-        timesGenerated: number
-    }
+    createdOn: string | null
+    timesGenerated: number | null
+    id: number
 }
 
 export type GetSpecificUserTemplate = {

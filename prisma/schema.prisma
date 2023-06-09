@@ -35,6 +35,9 @@ model user_ppt_template {
   id                      Int                       @id @default(autoincrement())
   template_id             Int                       @default(autoincrement())
   user_id                 Int                       @default(autoincrement())
+  created_on              String?                   @db.VarChar(255)
+  times_generated         Int?
+  name                    String?                   @db.VarChar(255)
   ppt_template            ppt_template              @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users                   users                     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_ppt_template_slide user_ppt_template_slide[]

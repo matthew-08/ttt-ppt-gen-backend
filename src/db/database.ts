@@ -38,7 +38,8 @@ const database = {
             return template
         },
         async fetchAllUserTemplates(input: GetAllUserTemplatesInput) {
-            const data = await getAllUserTemplates(input)
+            const userTemplates = await getAllUserTemplates(input)
+            return userTemplates
         },
     },
 }

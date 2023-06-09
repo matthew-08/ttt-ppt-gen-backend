@@ -10,7 +10,7 @@ import {
 
 type DeserializedUser = {
     user: {
-        id: string
+        id: number
     }
 }
 
@@ -49,9 +49,11 @@ const handleGetUserTemplates = async (
     req: Request<{}, {}, UserTemplateInput>,
     res: Response<{}, DeserializedUser>
 ) => {
-    await getAllUserTemplates({
-        id: Number(res.locals.user.id),
+    console.log(res.locals.user.id)
+    const userTemplates = database.templates.fetchAllUserTemplates({
+        id: res.locals.user.id,
     })
+    return res.status(200).send(userTemplates)
 }
 
 export { handleGetAllTemplates, handleCreateTemplate, handleGetUserTemplates }
