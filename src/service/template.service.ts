@@ -2,6 +2,7 @@ import { prismaClient } from '../db/prisma'
 import { GetAllUserTemplatesInput, UserCreateTemplateInput } from '../types'
 import objectEntries from '../utils/objEntries'
 import * as util from 'util'
+import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 
 const getAllTemplates = async () => {
     const templates = await prismaClient.ppt_template.findMany({
@@ -36,7 +37,8 @@ export const createUserTemplate = async ({
     templateId,
     templateInput,
     userId,
-}: UserCreateTemplateInput) => {
+    name,
+}: PostUserTemplateInput) => {
     const fieldMap = {
         question: 1,
         additional: 2,
@@ -80,6 +82,7 @@ export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
         select: {
             user_id: true,
             id: true,
+            name: true,
             created_on: true,
             times_generated: true,
             ppt_template: {

@@ -1,6 +1,6 @@
 import { string, z } from 'zod'
 
-const GetTemplateSchema = z.object({
+const GetUserTemplatesSchema = z.object({
     params: z.object({
         id: string(),
     }),
@@ -9,4 +9,4 @@ const GetTemplateSchema = z.object({
     }),
 })
 
-export default GetTemplateSchema
+export default GetUserTemplatesSchema

@@ -1,11 +1,11 @@
 import { template } from '@babel/core'
 import { NextFunction, Request, Response } from 'express'
 import { database } from '../db/database'
-import { UserTemplateInput } from '../schema/template.schema'
+import { PostTemplateInput } from '../schema/template.schema'
 import errorFactory from '../utils/errorFactory'
 
 const validateTemplate = async (
-    req: Request<{}, {}, UserTemplateInput>,
+    req: Request<{}, {}, PostTemplateInput>,
     res: Response,
     next: NextFunction
 ) => {

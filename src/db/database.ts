@@ -1,6 +1,5 @@
 import formatAllTemplates from '../formatResponse/formatAllTemplates'
-import { UserCreateSessionInput } from '../schema/session.schema'
-import { CreateUserInput } from '../schema/user.schema'
+import { PostUserInput } from '../schema/user.schema'
 import {
     getAllTemplates,
     getAllUserTemplates,
@@ -11,7 +10,7 @@ import { GetAllUserTemplatesInput, Template } from '../types'
 
 const database = {
     users: {
-        async createUser(input: CreateUserInput) {
+        async createUser(input: PostUserInput) {
             const userExists = await getUser(input)
             if (userExists) {
                 return false

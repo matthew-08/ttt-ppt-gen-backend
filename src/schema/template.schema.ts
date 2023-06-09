@@ -14,6 +14,6 @@ const TemplateSchema = z.object({
     }),
 })
 
-type UserTemplateInput = z.infer<typeof TemplateSchema>['body']
+type PostTemplateInput = z.infer<typeof TemplateSchema>['body']
 
-export { TemplateSchema, UserTemplateInput }
+export { TemplateSchema, PostTemplateInput }

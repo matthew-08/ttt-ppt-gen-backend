@@ -1,6 +1,7 @@
 import { Express, Request, Response } from 'express'
 import {
     handleCreateTemplate,
+    handleCreateUserTemplate,
     handleGetAllTemplates,
     handleGetUserTemplates,
 } from '../controller/template.controller'
@@ -16,7 +17,8 @@ import {
 import { TemplateSchema } from '../schema/template.schema'
 import validateTemplate from '../middleware/validateTemplate'
 import { validateSession } from '../middleware/validateSession'
-import GetTemplateSchema from '../schema/getTemplate.schema'
+import GetUserTemplatesSchema from '../schema/getTemplate.schema'
+import PostUserTemplateSchema from '../schema/postUserTemplate.schema'
 
 const appRoutes = (app: Express) => {
     app.get('/healthcheck/:id/test/:id', (req: Request, res: Response) => {
@@ -26,12 +28,10 @@ const appRoutes = (app: Express) => {
 
     //TEMPLATES
     app.get('/api/templates', handleGetAllTemplates)
-
     app.post(
         '/api/templates',
         validateSchema(TemplateSchema),
         validateTemplate,
-        deserializeUser,
         handleCreateTemplate
     )
 
@@ -43,12 +43,18 @@ const appRoutes = (app: Express) => {
     //USER/:ID/TEMPLATES/:ID
     app.get(
         '/api/users/:id/templates',
-        validateSchema(GetTemplateSchema),
+        validateSchema(GetUserTemplatesSchema),
         deserializeUser,
         handleGetUserTemplates
     )
     app.get('/api/users/:id/templates/:id')
-    app.post('/api/users/:id/templates/:id')
+
+    app.post(
+        '/api/users/:id/templates/',
+        validateSchema(PostUserTemplateSchema),
+        deserializeUser,
+        handleCreateUserTemplate
+    )
 
     //SESSION
     app.get(

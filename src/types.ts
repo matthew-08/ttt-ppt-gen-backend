@@ -35,6 +35,7 @@ export type UserTemplateResponse = {
         id: number
         name: string
     }
+    name: string | null
     createdOn: string | null
     timesGenerated: number | null
     id: number
