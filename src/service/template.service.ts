@@ -4,7 +4,7 @@ import objectEntries from '../utils/objEntries'
 import * as util from 'util'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 
-const getAllTemplates = async () => {
+const getAllTemplatesService = async () => {
     const templates = await prismaClient.ppt_template.findMany({
         include: {
             ppt_template_field: {
@@ -21,7 +21,7 @@ const getAllTemplates = async () => {
     return templates
 }
 
-const getSingleTemplate = async (templateId: number) => {
+const getTemplateService = async (templateId: number) => {
     const template = await prismaClient.ppt_template.findUnique({
         where: {
             id: templateId,
@@ -33,7 +33,7 @@ const getSingleTemplate = async (templateId: number) => {
     return template
 }
 
-export const createUserTemplate = async ({
+export const postUserTemplateService = async ({
     templateId,
     templateInput,
     userId,
@@ -73,7 +73,7 @@ export const createUserTemplate = async ({
     )
 }
 
-export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
+const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {
     console.log(id)
     const test = await prismaClient.user_ppt_template.findMany({
         where: {
@@ -99,4 +99,8 @@ export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
     return test
 }
 
-export { getAllTemplates, getSingleTemplate }
+export {
+    getTemplateService,
+    getAllUserTemplatesService,
+    getAllTemplatesService,
+}
