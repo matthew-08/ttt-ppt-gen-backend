@@ -22,6 +22,8 @@ const PostUserTemplateSchema = z.object({
 
 export type PostUserTemplateInput = z.infer<
     typeof PostUserTemplateSchema
->['body']
+>['body'] & {
+    userId: number
+}
 
 export default PostUserTemplateSchema

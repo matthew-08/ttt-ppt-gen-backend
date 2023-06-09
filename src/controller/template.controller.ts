@@ -8,6 +8,7 @@ import {
     getAllUserTemplates,
 } from '../service/template.service'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
+import { GetAllUserTemplatesInput } from '../types'
 
 type DeserializedUser = {
     user: {
@@ -40,8 +41,8 @@ const handleCreateTemplate = async (
     res.status(200).download(filepath)
 }
 
-const handleGetUserTemplates = async (
-    req: Request<{}, {}, UserTemplateInput>,
+const handleGetAllUserTemplates = async (
+    req: Request<{}, {}, GetAllUserTemplatesInput>,
     res: Response<{}, DeserializedUser>
 ) => {
     console.log(res.locals.user.id)
@@ -68,6 +69,6 @@ const handleCreateUserTemplate = async (
 export {
     handleGetAllTemplates,
     handleCreateTemplate,
-    handleGetUserTemplates,
+    handleGetAllUserTemplates,
     handleCreateUserTemplate,
 }

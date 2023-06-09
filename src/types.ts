@@ -1,4 +1,10 @@
-import { UserTemplateInput } from './schema/template.schema'
+// Naming schema for input / output
+// RequestType|Resource|Input
+// RequestType|Resource|Ouput
+// RequestType|Resource|Response
+// Example: GetTemplateInput
+//          GetUserTemplateInput
+//          GetUserTemplateResponse
 
 export type InternalError = {
     successful: boolean
@@ -52,3 +58,5 @@ export type GetSpecificUserTemplate = {
         }
     ]
 }
+
+type PostUserTemplateInput = {}

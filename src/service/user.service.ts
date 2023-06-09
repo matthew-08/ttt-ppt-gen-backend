@@ -1,8 +1,8 @@
 import { prismaClient } from '../db/prisma'
-import { CreateUserInput } from '../schema/user.schema'
+import { PostUserInput } from '../schema/user.schema'
 import { hashPassword } from '../utils/hashPassword'
 
-const getUser = async (input: CreateUserInput | string) => {
+const getUserService = async (input: PostUserInput | string) => {
     return await prismaClient.users.findUnique({
         where: {
             email: typeof input === 'string' ? input : input.email,
@@ -10,7 +10,7 @@ const getUser = async (input: CreateUserInput | string) => {
     })
 }
 
-const createNewUser = async (input: CreateUserInput) => {
+const createUserService = async (input: PostUserInput) => {
     const hashPass = await hashPassword(input.password)
 
     const newUser = await prismaClient.users.create({
@@ -24,4 +24,4 @@ const createNewUser = async (input: CreateUserInput) => {
     }
 }
 
-export { getUser, createNewUser }
+export { getUserService, createUserService }

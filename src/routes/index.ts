@@ -3,7 +3,7 @@ import {
     handleCreateTemplate,
     handleCreateUserTemplate,
     handleGetAllTemplates,
-    handleGetUserTemplates,
+    handleGetAllUserTemplates,
 } from '../controller/template.controller'
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
@@ -45,7 +45,7 @@ const appRoutes = (app: Express) => {
         '/api/users/:id/templates',
         validateSchema(GetUserTemplatesSchema),
         deserializeUser,
-        handleGetUserTemplates
+        handleGetAllUserTemplates
     )
     app.get('/api/users/:id/templates/:id')
 
