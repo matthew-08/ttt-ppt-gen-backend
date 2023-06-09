@@ -110,10 +110,7 @@ const writeHandler = (
     const keys = Object.keys(userTemplate) as unknown as (keyof UserTemplate)[]
     keys.forEach((key) => {
         const id = template['format'][key]
-        console.log('test')
         if (id) {
-            console.log('finished editing node')
-            console.log(userTemplate[key])
             slide.editTextNode(id.toString(), userTemplate[key] as string)
         }
     })
@@ -149,19 +146,13 @@ export const handleGenTemplate = async <
 
     presentation.getSlides().then((res) => {
         res.length
-        res.forEach((s) => {
-            console.log(s.textNodes)
-        })
+        res.forEach((s) => {})
     })
-    console.log('TEST DONE')
     const slides = await presentation
         .getSlides()
         .then((res) => extractQuestionSlides(res))
     writeToSlides(slides, userTemplate, selectedTemplate)
-    slides.forEach((slide) => {
-        console.log(slide.textNodes)
-    })
+    slides.forEach((slide) => {})
     await presentation.applySlideChanges()
-    console.time('applied slide hanges')
     await presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
 }

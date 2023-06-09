@@ -1,8 +1,13 @@
+import formatAllTemplates from '../formatResponse/formatAllTemplates'
 import { UserCreateSessionInput } from '../schema/session.schema'
 import { CreateUserInput } from '../schema/user.schema'
-import { getAllTemplates, getSingleTemplate } from '../service/template.service'
+import {
+    getAllTemplates,
+    getAllUserTemplates,
+    getSingleTemplate,
+} from '../service/template.service'
 import { createNewUser, getUser } from '../service/user.service'
-import { Template } from '../types'
+import { GetAllUserTemplatesInput, Template } from '../types'
 
 const database = {
     users: {
@@ -24,25 +29,16 @@ const database = {
     },
     templates: {
         async fetchAllTemplates(): Promise<Template[]> {
-            const templates = await getAllTemplates()
-            const t = templates.map(
-                ({ id, name, img, ppt_template_field, slide_amount }) => {
-                    return {
-                        id,
-                        name,
-                        img,
-                        slideAmount: Number(slide_amount),
-                        templateFields: ppt_template_field.map(
-                            (field) => field.field_type
-                        ),
-                    }
-                }
-            )
-            return t.filter((t) => t.id !== 3)
+            const dbTemplates = await getAllTemplates()
+            const templates = formatAllTemplates(dbTemplates)
+            return templates
         },
         async getTemplate(templateId: number) {
             const template = await getSingleTemplate(templateId)
             return template
+        },
+        async fetchAllUserTemplates(input: GetAllUserTemplatesInput) {
+            const data = await getAllUserTemplates(input)
         },
     },
 }

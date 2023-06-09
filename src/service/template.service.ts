@@ -1,4 +1,7 @@
 import { prismaClient } from '../db/prisma'
+import { GetAllUserTemplatesInput, UserCreateTemplateInput } from '../types'
+import objectEntries from '../utils/objEntries'
+import * as util from 'util'
 
 const getAllTemplates = async () => {
     const templates = await prismaClient.ppt_template.findMany({
@@ -27,6 +30,59 @@ const getSingleTemplate = async (templateId: number) => {
         },
     })
     return template
+}
+
+export const createUserTemplate = async ({
+    templateId,
+    templateInput,
+    userId,
+}: UserCreateTemplateInput) => {
+    const fieldMap = {
+        question: 1,
+        additional: 2,
+        answer: 3,
+    }
+    const userTemplate = await prismaClient.user_ppt_template.create({
+        data: {
+            user_id: userId,
+            template_id: templateId,
+        },
+    })
+    await Promise.all(
+        templateInput.map(async (input, index) => {
+            const slide = await prismaClient.user_ppt_template_slide.create({
+                data: {
+                    template_id: userTemplate.id,
+                    slide_no: index,
+                },
+            })
+            objectEntries(input).map(async (e) => {
+                const fieldName = e[0]
+                const fieldEntry =
+                    await prismaClient.user_ppt_slide_field.create({
+                        data: {
+                            content: e[1],
+                            slide_id: slide.id,
+                            field_id: fieldMap[fieldName],
+                        },
+                    })
+            })
+        })
+    )
+}
+
+export const getAllUserTemplates = async ({ id }: GetAllUserTemplatesInput) => {
+    return await prismaClient.user_ppt_template.findMany({
+        select: {
+            ppt_template: {
+                select: {
+                    id: true,
+                    img: true,
+                    name: true,
+                },
+            },
+        },
+    })
 }
 
 export { getAllTemplates, getSingleTemplate }

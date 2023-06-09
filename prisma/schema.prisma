@@ -8,9 +8,10 @@ datasource db {
 }
 
 model field_type {
-  id                 Int                  @id @default(autoincrement())
-  type               String               @db.VarChar(255)
-  ppt_template_field ppt_template_field[]
+  id                   Int                    @id @default(autoincrement())
+  type                 String                 @db.VarChar(255)
+  ppt_template_field   ppt_template_field[]
+  user_ppt_slide_field user_ppt_slide_field[]
 }
 
 model ppt_template {
@@ -31,11 +32,12 @@ model ppt_template_field {
 }
 
 model user_ppt_template {
-  id           Int          @id @default(autoincrement())
-  template_id  Int          @default(autoincrement())
-  user_id      Int          @default(autoincrement())
-  ppt_template ppt_template @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users        users        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id                      Int                       @id @default(autoincrement())
+  template_id             Int                       @default(autoincrement())
+  user_id                 Int                       @default(autoincrement())
+  ppt_template            ppt_template              @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                   users                     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_ppt_template_slide user_ppt_template_slide[]
 }
 
 model users {
@@ -43,4 +45,21 @@ model users {
   email             String              @unique @db.VarChar(255)
   passhash          String              @db.VarChar(255)
   user_ppt_template user_ppt_template[]
+}
+
+model user_ppt_slide_field {
+  id                      Int                     @id @default(autoincrement())
+  slide_id                Int                     @default(autoincrement())
+  field_id                Int                     @default(autoincrement())
+  content                 String?                 @db.VarChar(255)
+  field_type              field_type              @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_ppt_template_slide user_ppt_template_slide @relation(fields: [slide_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model user_ppt_template_slide {
+  id                   Int                    @id @default(autoincrement())
+  template_id          Int                    @default(autoincrement())
+  slide_no             Int?
+  user_ppt_slide_field user_ppt_slide_field[]
+  user_ppt_template    user_ppt_template      @relation(fields: [template_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

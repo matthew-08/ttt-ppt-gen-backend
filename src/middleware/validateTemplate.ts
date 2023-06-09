@@ -19,7 +19,7 @@ const validateTemplate = async (
         )
         res.status(404).send(error)
     }
-    console.log(req.body);
+    console.log('VALIDATING TEMPLATE')
     next()
 }
 

@@ -3,6 +3,16 @@ import { database } from '../db/database'
 import { UserTemplateInput } from '../schema/template.schema'
 import path from 'path'
 import { handleGenTemplate } from '../utils/genPpt'
+import {
+    createUserTemplate,
+    getAllUserTemplates,
+} from '../service/template.service'
+
+type DeserializedUser = {
+    user: {
+        id: string
+    }
+}
 
 const handleGetAllTemplates = async (req: Request, res: Response) => {
     const templates = await database.templates.fetchAllTemplates()
@@ -14,14 +24,34 @@ const handleGetAllTemplates = async (req: Request, res: Response) => {
 
 const handleCreateTemplate = async (
     req: Request<{}, {}, UserTemplateInput>,
-    res: Response
+    res: Response<{}, DeserializedUser>
 ) => {
     console.log('in controller')
+    console.log('IN HANDLE CREATE TEMPLATE')
+    console.log(res.locals.user)
+
     const { templateId, templateInput } = req.body
+    await createUserTemplate({
+        templateId,
+        templateInput,
+        userId: res.locals.user.id,
+    })
+
     await handleGenTemplate(templateId, templateInput)
     const filepath = path.join(__dirname, '../output/temp.pptx')
     console.log('returning file')
+    console.log(res.locals)
+    console.log(res.locals.user)
     res.status(200).download(filepath)
 }
 
-export { handleGetAllTemplates, handleCreateTemplate }
+const handleGetUserTemplates = async (
+    req: Request<{}, {}, UserTemplateInput>,
+    res: Response<{}, DeserializedUser>
+) => {
+    await getAllUserTemplates({
+        id: Number(res.locals.user.id),
+    })
+}
+
+export { handleGetAllTemplates, handleCreateTemplate, handleGetUserTemplates }
