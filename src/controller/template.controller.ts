@@ -3,10 +3,6 @@ import { database } from '../db/database'
 import { PostTemplateInput } from '../schema/template.schema'
 import path from 'path'
 import { handleGenTemplate } from '../utils/genPpt'
-import {
-    createUserTemplate,
-    getAllUserTemplates,
-} from '../service/template.service'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetAllUserTemplatesInput } from '../types'
 
@@ -17,7 +13,7 @@ type DeserializedUser = {
 }
 
 const handleGetAllTemplates = async (req: Request, res: Response) => {
-    const templates = await database.templates.fetchAllTemplates()
+    const templates = await database.templates.getAllTemplates()
     if (!templates) {
         return res.status(400).end()
     }
@@ -46,7 +42,7 @@ const handleGetAllUserTemplates = async (
     res: Response<{}, DeserializedUser>
 ) => {
     console.log(res.locals.user.id)
-    const userTemplates = database.templates.fetchAllUserTemplates({
+    const userTemplates = database.templates.getAllUserTemplates({
         id: res.locals.user.id,
     })
     return res.status(200).send(userTemplates)
@@ -59,7 +55,8 @@ const handleCreateUserTemplate = async (
     const { id: userId } = res.locals.user
     const { name, templateId, templateInput } = req.body
 
-    await createUserTemplate({
+    await database.templates.postUserTemplate({
+        name,
         templateId,
         templateInput,
         userId: res.locals.user.id,

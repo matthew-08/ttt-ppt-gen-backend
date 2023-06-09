@@ -1,24 +1,27 @@
 import formatAllTemplates from '../formatResponse/formatAllTemplates'
+import formatAllUserTemplates from '../formatResponse/formatAllUserTemplates'
+import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { PostUserInput } from '../schema/user.schema'
 import {
     getAllTemplatesService,
     getAllUserTemplatesService,
     getTemplateService,
+    postUserTemplateService,
 } from '../service/template.service'
-import { createUserService, getUserService } from '../service/user.service'
+import { postUserService, getUserService } from '../service/user.service'
 import { GetAllUserTemplatesInput, Template } from '../types'
 
 const database = {
     users: {
-        async getUser(input: PostUserInput) {
+        async postUser(input: PostUserInput) {
             const userExists = await getUserService(input)
             if (userExists) {
                 return false
             }
-            const user = await createUserService(input)
+            const user = await postUserService(input)
             return user
         },
-        async postUser(email: string) {
+        async getUser(email: string) {
             const user = await getUserService(email)
             if (!user) {
                 return false
@@ -37,8 +40,12 @@ const database = {
             return template
         },
         async getAllUserTemplates(input: GetAllUserTemplatesInput) {
-            const userTemplates = await getAllUserTemplatesService(input)
+            const dbUserTemplates = await getAllUserTemplatesService(input)
+            const userTemplates = formatAllUserTemplates(dbUserTemplates)
             return userTemplates
+        },
+        async postUserTemplate(input: PostUserTemplateInput) {
+            const userTemplate = await postUserTemplateService(input)
         },
     },
 }

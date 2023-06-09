@@ -48,6 +48,9 @@ export const postUserTemplateService = async ({
         data: {
             user_id: userId,
             template_id: templateId,
+            name,
+            created_on: Date.now().toString(),
+            times_generated: 1,
         },
     })
     await Promise.all(
@@ -71,6 +74,7 @@ export const postUserTemplateService = async ({
             })
         })
     )
+    return userTemplate
 }
 
 const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {

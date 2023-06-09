@@ -23,7 +23,7 @@ export type Template = {
     templateFields: TemplateFields[]
 }
 
-export interface UserCreateTemplateInput extends UserTemplateInput {
+export interface UserCreateTemplateInput extends PostUserTemplateInput {
     userId: number
 }
 
