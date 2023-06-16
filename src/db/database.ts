@@ -1,11 +1,13 @@
 import formatAllTemplates from '../formatResponse/formatAllTemplates'
 import formatAllUserTemplates from '../formatResponse/formatAllUserTemplates'
+import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { PostUserInput } from '../schema/user.schema'
 import {
     getAllTemplatesService,
     getAllUserTemplatesService,
     getTemplateService,
+    getUserTemplateService,
     postUserTemplateService,
 } from '../service/template.service'
 import { postUserService, getUserService } from '../service/user.service'
@@ -47,6 +49,10 @@ const database = {
         async postUserTemplate(input: PostUserTemplateInput) {
             const userTemplate = await postUserTemplateService(input)
             return userTemplate
+        },
+        async getUserTemplate(input: GetUserTemplateParams) {
+            const userTemplate = await getUserTemplateService(input)
+            console.log(userTemplate)
         },
     },
 }

@@ -3,6 +3,7 @@ import { GetAllUserTemplatesInput, UserCreateTemplateInput } from '../types'
 import objectEntries from '../utils/objEntries'
 import * as util from 'util'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
+import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 
 const getAllTemplatesService = async () => {
     const templates = await prismaClient.ppt_template.findMany({
@@ -78,7 +79,6 @@ export const postUserTemplateService = async ({
 }
 
 const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {
-    console.log(id)
     const test = await prismaClient.user_ppt_template.findMany({
         where: {
             user_id: id,
@@ -103,8 +103,30 @@ const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {
     return test
 }
 
+const getUserTemplateService = async ({
+    templateId,
+    userId,
+}: GetUserTemplateParams) => {
+    return await prismaClient.user_ppt_template.findFirst({
+        where: {
+            user_id: Number(userId),
+            AND: {
+                id: Number(templateId),
+            },
+        },
+        include: {
+            user_ppt_template_slide: {
+                include: {
+                    user_ppt_slide_field: true,
+                },
+            },
+        },
+    })
+}
+
 export {
     getTemplateService,
     getAllUserTemplatesService,
     getAllTemplatesService,
+    getUserTemplateService,
 }
