@@ -1,4 +1,4 @@
-import { CreateUserInput } from '../schema/user.schema'
+import { PostUserInput } from '../schema/user.schema'
 import { Request, Response } from 'express'
 import { database } from '../db/database'
 import errorFactory from '../utils/errorFactory'
@@ -6,10 +6,10 @@ import { signJwt } from '../utils/jwt'
 import appEnv from '../appConfig/env'
 
 const handleCreateUser = async (
-    req: Request<{}, {}, CreateUserInput>,
+    req: Request<{}, {}, PostUserInput>,
     res: Response
 ) => {
-    const newUser = await database.users.createUser(req.body)
+    const newUser = await database.users.postUser(req.body)
     if (!newUser) {
         const error = errorFactory(
             'validation',

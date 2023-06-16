@@ -46,6 +46,7 @@ const database = {
         },
         async postUserTemplate(input: PostUserTemplateInput) {
             const userTemplate = await postUserTemplateService(input)
+            return userTemplate
         },
     },
 }

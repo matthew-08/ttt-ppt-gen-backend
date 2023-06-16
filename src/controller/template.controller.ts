@@ -5,6 +5,7 @@ import path from 'path'
 import { handleGenTemplate } from '../utils/genPpt'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetAllUserTemplatesInput } from '../types'
+import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 
 type DeserializedUser = {
     user: {
@@ -24,8 +25,6 @@ const handleCreateTemplate = async (
     req: Request<{}, {}, PostTemplateInput>,
     res: Response<{}, DeserializedUser>
 ) => {
-    console.log('in controller')
-    console.log('IN HANDLE CREATE TEMPLATE')
     console.log(res.locals.user)
 
     const { templateId, templateInput } = req.body
@@ -42,9 +41,10 @@ const handleGetAllUserTemplates = async (
     res: Response<{}, DeserializedUser>
 ) => {
     console.log(res.locals.user.id)
-    const userTemplates = database.templates.getAllUserTemplates({
+    const userTemplates = await database.templates.getAllUserTemplates({
         id: res.locals.user.id,
     })
+    console.log(userTemplates)
     return res.status(200).send(userTemplates)
 }
 
@@ -54,18 +54,24 @@ const handleCreateUserTemplate = async (
 ) => {
     const { id: userId } = res.locals.user
     const { name, templateId, templateInput } = req.body
-
-    await database.templates.postUserTemplate({
+    const newUserTemplate = await database.templates.postUserTemplate({
         name,
         templateId,
         templateInput,
-        userId: res.locals.user.id,
+        userId,
     })
+    return res.status(200).send()
 }
+
+const handleGetUserTemplate = async (
+    req: Request<GetUserTemplateParams>,
+    res: Response<{}, DeserializedUser>
+) => {}
 
 export {
     handleGetAllTemplates,
     handleCreateTemplate,
     handleGetAllUserTemplates,
     handleCreateUserTemplate,
+    handleGetUserTemplate,
 }

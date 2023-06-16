@@ -10,20 +10,23 @@ const validateSession = async (
     next: NextFunction
 ) => {
     const { email, password: plaintextPassword } = req.body
-    const user = await database.users.fetchUser(email)
+    const user = await database.users.getUser(email)
     if (!user) {
         const error = errorFactory(
             'Validation',
             'Invalid email',
             '/api/session'
         )
+        console.log(error)
         res.status(400).json(error)
     } else {
         const valid = await passCompare(plaintextPassword, user.passhash)
         if (valid) {
+            console.log('VALID')
             res.locals.id = user.id
             next()
         } else {
+            console.log('INVALID')
             res.status(400).send('Invalid password')
         }
     }

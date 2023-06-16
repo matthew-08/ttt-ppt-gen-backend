@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { database } from '../db/database'
-import { UserCreateSessionInput } from '../schema/session.schema'
+import { signJwt } from '../utils/jwt'
+import appEnv from '../appConfig/env'
 
 const handleGetSession = (
     req: Request,
@@ -19,11 +19,18 @@ const handleGetSession = (
     return res.status(200).send(res.locals.user)
 }
 
-const handleCreateSession = (
+const handleCreateSession = async (
     req: Request<{}, {}>,
     res: Response<{}, { id: number }>
 ) => {
-    return res.status(200).send(res.locals)
+    const user = res.locals
+    const jwt = await signJwt(user, {
+        expiresIn: appEnv.accessTokenTTL,
+    })
+    return res.status(200).send({
+        accessToken: jwt,
+        id: user.id,
+    })
 }
 
 export { handleGetSession, handleCreateSession }

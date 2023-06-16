@@ -67,10 +67,6 @@ const loadTemplate = (name: string) => {
     )
 }
 
-const reload = (pres: Presentation) => {
-    pres.generateTempFile()
-}
-
 const extractQuestionSlides = (slides: Slide[]) => {
     return slides.filter((slide) => {
         const textNodes = Object.values(slide.textNodes).find(
@@ -144,15 +140,10 @@ export const handleGenTemplate = async <
     await presentation.generateTempFile()
     await presentation.extractSlides()
 
-    presentation.getSlides().then((res) => {
-        res.length
-        res.forEach((s) => {})
-    })
     const slides = await presentation
         .getSlides()
         .then((res) => extractQuestionSlides(res))
     writeToSlides(slides, userTemplate, selectedTemplate)
-    slides.forEach((slide) => {})
     await presentation.applySlideChanges()
     await presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
 }

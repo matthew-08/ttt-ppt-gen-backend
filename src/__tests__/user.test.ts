@@ -13,8 +13,10 @@ describe('/user endpoint', () => {
     describe('users POST', () => {
         describe('user enters valid data (validation checks passed)', () => {
             beforeEach(() => {
-                jest.spyOn(UserService, 'getUser').mockResolvedValue(null)
-                jest.spyOn(UserService, 'createNewUser').mockResolvedValue({
+                jest.spyOn(UserService, 'getUserService').mockResolvedValue(
+                    null
+                )
+                jest.spyOn(UserService, 'postUserService').mockResolvedValue({
                     id: 1,
                 })
             })
@@ -86,7 +88,7 @@ describe('/user endpoint', () => {
             }
 
             it('sends a status 400 error code', async () => {
-                jest.spyOn(UserService, 'getUser').mockResolvedValue({
+                jest.spyOn(UserService, 'getUserService').mockResolvedValue({
                     email: 'test',
                     id: 1,
                     passhash: 'test',
