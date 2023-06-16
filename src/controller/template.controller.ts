@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, response, Response } from 'express'
 import { database } from '../db/database'
 import { PostTemplateInput } from '../schema/template.schema'
 import path from 'path'
@@ -6,6 +6,7 @@ import { handleGenTemplate } from '../utils/genPpt'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetAllUserTemplatesInput } from '../types'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
+import { request } from 'http'
 
 type DeserializedUser = {
     user: {
@@ -66,7 +67,22 @@ const handleCreateUserTemplate = async (
 const handleGetUserTemplate = async (
     req: Request<GetUserTemplateParams>,
     res: Response<{}, DeserializedUser>
-) => {}
+) => {
+    const input = req.params
+    console.log('test')
+    const userTemplate = await database.templates.getUserTemplate(input)
+    return res.status(200).send()
+}
+
+const handleGetUserTemplateSlides = async (
+    req: Request<GetUserTemplateParams>,
+    res: Response<{}, DeserializedUser>
+) => {
+    const input = req.params
+    const userTemplateSlides =
+        await database.templates.slides.getUserTemplateSlides(input)
+    return userTemplateSlides
+}
 
 export {
     handleGetAllTemplates,

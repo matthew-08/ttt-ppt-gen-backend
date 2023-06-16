@@ -117,9 +117,24 @@ const getUserTemplateService = async ({
         include: {
             user_ppt_template_slide: {
                 include: {
-                    user_ppt_slide_field: true,
+                    user_ppt_slide_field: {
+                        include: {
+                            field_type: true,
+                        },
+                    },
                 },
             },
+        },
+    })
+}
+
+const getUserTemplateSlidesService = async ({
+    templateId,
+    userId,
+}: GetUserTemplateParams) => {
+    return await prismaClient.user_ppt_template_slide.findMany({
+        where: {
+            template_id: Number(templateId),
         },
     })
 }
@@ -129,4 +144,5 @@ export {
     getAllUserTemplatesService,
     getAllTemplatesService,
     getUserTemplateService,
+    getUserTemplateSlidesService,
 }

@@ -8,6 +8,7 @@ const deserializeUser = async (
     res: Response,
     next: NextFunction
 ) => {
+    console.log(req.params)
     console.log('de user')
     if (!req.headers.authorization) {
         return res.status(400).send('No authorization header')

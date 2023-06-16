@@ -47,16 +47,28 @@ export type UserTemplateResponse = {
     id: number
 }
 
-export type GetSpecificUserTemplate = {
+export type FieldTypeResponse = {
+    id: number
+    type: string
+}
+
+export type SlideFieldResponse = {
+    id: number
+    slideId: number
+    fieldType: FieldTypeResponse
+    content: string
+}
+
+export type SlideResponse = {
+    id: number
     templateId: number
-    slides: [
-        {
-            slideId: number
-            slideFields: [
-                { fieldId: number; fieldType: string; content: string }
-            ]
-        }
-    ]
+    slideNumber: number
+    slideFields: SlideFieldResponse[]
+}
+
+export interface SingleUserTemplateResponse
+    extends Omit<UserTemplateResponse, 'templateInfo'> {
+    slides: SlideResponse[]
 }
 
 type PostUserTemplateInput = {}

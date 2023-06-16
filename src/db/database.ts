@@ -8,6 +8,7 @@ import {
     getAllUserTemplatesService,
     getTemplateService,
     getUserTemplateService,
+    getUserTemplateSlidesService,
     postUserTemplateService,
 } from '../service/template.service'
 import { postUserService, getUserService } from '../service/user.service'
@@ -52,7 +53,15 @@ const database = {
         },
         async getUserTemplate(input: GetUserTemplateParams) {
             const userTemplate = await getUserTemplateService(input)
-            console.log(userTemplate)
+            return userTemplate
+        },
+        slides: {
+            async getUserTemplateSlides(input: GetUserTemplateParams) {
+                const userTemplateSlides = await getUserTemplateSlidesService(
+                    input
+                )
+                return userTemplateSlides
+            },
         },
     },
 }
