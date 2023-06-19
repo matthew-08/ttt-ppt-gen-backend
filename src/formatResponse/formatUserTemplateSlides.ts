@@ -1,9 +1,21 @@
-import type {
-    user_ppt_slide_field,
-    user_ppt_template_slide,
-    field_type,
-} from '@prisma/client'
 import { SlideFieldResponse, SlideResponse } from '../types'
+
+type user_ppt_slide_field = {
+    id: number
+    slide_id: number
+    field_id: number
+    content: string | null
+}
+
+type user_ppt_template_slide = {
+    id: number
+    template_id: number
+    slide_no: number | null
+}
+type field_type = {
+    id: number
+    type: string
+}
 
 const formatUserTemplateSlides = (
     slides: (user_ppt_template_slide & {
