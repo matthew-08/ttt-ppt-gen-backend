@@ -1,4 +1,4 @@
-import {
+/* import {
     field_type,
     user_ppt_slide_field,
     user_ppt_template,
@@ -6,7 +6,7 @@ import {
 } from '@prisma/client'
 import { UserTemplateResponse } from '../types'
 
-/* const formatSingleUserTemplate = (
+ const formatSingleUserTemplate = (
     dbResponse: (user_ppt_template & {
         user_ppt_template_slide: (user_ppt_template_slide & {
             user_ppt_slide_field: (user_ppt_slide_field & {
@@ -24,4 +24,5 @@ import { UserTemplateResponse } from '../types'
         }
     })
 }
+
  */

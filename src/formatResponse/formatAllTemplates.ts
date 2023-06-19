@@ -1,4 +1,4 @@
-import { ppt_template } from '@prisma/client'
+import type { ppt_template } from '@prisma/client'
 
 const formatAllTemplates = (
     dbResponse: (ppt_template & {

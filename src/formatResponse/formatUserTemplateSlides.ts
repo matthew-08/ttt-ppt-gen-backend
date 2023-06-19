@@ -1,4 +1,4 @@
-import {
+import type {
     user_ppt_slide_field,
     user_ppt_template_slide,
     field_type,
