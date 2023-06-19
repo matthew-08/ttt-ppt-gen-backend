@@ -156,7 +156,7 @@ export const handleGenTemplate = async <
     console.log(__dirname)
     try {
         await presentation.generateNewPPT(
-            path.join(__dirname, '../../output/temp')
+            path.join(__dirname, '../output/temp')
         )
     } catch (error) {
         console.log(error)
