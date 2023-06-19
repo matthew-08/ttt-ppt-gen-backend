@@ -132,19 +132,33 @@ export const handleGenTemplate = async <
     templateId: T,
     userTemplate: UserTemplate[]
 ) => {
+    console.log('hanlding gen ppt')
     const selectedTemplate = templates.find((t) => t.id === templateId)
     if (!selectedTemplate) {
         return
     }
     const presentation = loadTemplate(selectedTemplate.name)
     await presentation.generateTempFile()
+    console.log('Generated temp file')
+
     await presentation.extractSlides()
+    console.log('Extracted slides')
 
     const slides = await presentation
         .getSlides()
         .then((res) => extractQuestionSlides(res))
     writeToSlides(slides, userTemplate, selectedTemplate)
+    console.log('Wrote to slides')
+
     await presentation.applySlideChanges()
+    console.log('Applied changes')
+
     console.log(__dirname)
-    await presentation.generateNewPPT(path.join(__dirname, '../../output/temp'))
+    try {
+        await presentation.generateNewPPT(
+            path.join(__dirname, '../../output/temp')
+        )
+    } catch (error) {
+        console.log(error)
+    }
 }
