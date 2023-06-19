@@ -138,7 +138,11 @@ export const handleGenTemplate = async <
         return
     }
     const presentation = loadTemplate(selectedTemplate.name)
-    await presentation.generateTempFile()
+    try {
+        await presentation.generateTempFile()
+    } catch (error) {
+        console.log(error)
+    }
     console.log('Generated temp file')
 
     await presentation.extractSlides()
