@@ -8,6 +8,7 @@ import { GetAllUserTemplatesInput } from '../types'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 import { request } from 'http'
 import { DeleteUserTemplateSchemaInput } from '../schema/deleteUserTemplate.schema'
+import * as fs from 'fs/promises'
 
 type DeserializedUser = {
     user: {
@@ -33,6 +34,10 @@ const handleCreateTemplate = async (
 
     await handleGenTemplate(templateId, templateInput)
     const filepath = path.join(__dirname, '../output/temp.pptx')
+    const files = await fs.readdir('../output/temp.pptx')
+    files.forEach((f) => {
+        console.log(f)
+    })
     console.log(res.locals)
     console.log(res.locals.user)
     res.status(200).download(filepath)
