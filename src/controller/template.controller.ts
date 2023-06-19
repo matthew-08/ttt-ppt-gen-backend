@@ -34,10 +34,10 @@ const handleCreateTemplate = async (
 
     await handleGenTemplate(templateId, templateInput)
     const filepath = path.join(__dirname, '../output/temp.pptx')
-    const files = await fs.readdir('../output/')
+    /* const files = await fs.readdir('../output')
     files.forEach((f) => {
         console.log(f)
-    })
+    }) */
     console.log(res.locals)
     console.log(res.locals.user)
     res.status(200).download(filepath)
