@@ -38,8 +38,8 @@ const handleCreateTemplate = async (
     files.forEach((f) => {
         console.log(f)
     }) */
-    console.log(res.locals)
-    console.log(res.locals.user)
+    console.log(__dirname)
+    console.log('DIRNAME')
     res.status(200).download(filepath)
 }
 
