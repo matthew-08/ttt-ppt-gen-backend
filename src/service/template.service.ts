@@ -94,6 +94,7 @@ const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {
                     id: true,
                     img: true,
                     name: true,
+                    slide_amount: true,
                 },
             },
         },
@@ -135,6 +136,13 @@ const getUserTemplateSlidesService = async ({
     return await prismaClient.user_ppt_template_slide.findMany({
         where: {
             template_id: Number(templateId),
+        },
+        include: {
+            user_ppt_slide_field: {
+                include: {
+                    field_type: true,
+                },
+            },
         },
     })
 }

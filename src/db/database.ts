@@ -1,8 +1,11 @@
 import formatAllTemplates from '../formatResponse/formatAllTemplates'
 import formatAllUserTemplates from '../formatResponse/formatAllUserTemplates'
+import formatUserTemplateSlides from '../formatResponse/formatUserTemplateSlides'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
+import { PatchUserTemplateInput } from '../schema/patchUserTemplate.schema'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { PostUserInput } from '../schema/user.schema'
+import { patchSlidesService } from '../service/slide.service'
 import {
     getAllTemplatesService,
     getAllUserTemplatesService,
@@ -57,10 +60,15 @@ const database = {
         },
         slides: {
             async getUserTemplateSlides(input: GetUserTemplateParams) {
-                const userTemplateSlides = await getUserTemplateSlidesService(
+                const dbUserTemplateSlides = await getUserTemplateSlidesService(
                     input
                 )
+                const userTemplateSlides =
+                    formatUserTemplateSlides(dbUserTemplateSlides)
                 return userTemplateSlides
+            },
+            async patchSlides(input: PatchUserTemplateInput) {
+                return await patchSlidesService(input)
             },
         },
     },

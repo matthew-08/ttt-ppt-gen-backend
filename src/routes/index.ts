@@ -5,6 +5,7 @@ import {
     handleGetAllTemplates,
     handleGetAllUserTemplates,
     handleGetUserTemplate,
+    handleGetUserTemplateSlides,
 } from '../controller/template.controller'
 import { UserSchema } from '../schema/user.schema'
 import validateSchema from '../middleware/validateSchema'
@@ -20,12 +21,13 @@ import validateTemplate from '../middleware/validateTemplate'
 import { validateSession } from '../middleware/validateSession'
 import GetUserTemplatesSchema from '../schema/getTemplate.schema'
 import PostUserTemplateSchema from '../schema/postUserTemplate.schema'
-import endpoints from '../utils/appEndpoints'
 import GetUserTemplateSchema from '../schema/getUserTemplate.schema'
+import PatchUserTemplateSchema from '../schema/patchUserTemplate.schema'
+import { handlePatchSlides } from '../controller/slides.controller'
+import DeleteUserTemplateSchema from '../schema/deleteUserTemplate.schema'
 
 const appRoutes = (app: Express) => {
-    app.get('/healthcheck/:id/test/:id', (req: Request, res: Response) => {
-        console.log(req.params)
+    app.get('/healthcheck', (req: Request, res: Response) => {
         return res.status(200).send('OK')
     })
 
@@ -38,7 +40,7 @@ const appRoutes = (app: Express) => {
         handleCreateTemplate
     )
 
-    //USER
+    //USERS
     app.get('/api/users', validateSchema(UserSchema))
     app.post('/api/users', validateSchema(UserSchema), handleCreateUser)
 
@@ -56,20 +58,29 @@ const appRoutes = (app: Express) => {
         deserializeUser,
         handleGetUserTemplate
     )
-
     app.get(
         '/api/users/:userId/templates/:templateId/slides',
         validateSchema(GetUserTemplateSchema),
-        deserializeUser
+        deserializeUser,
+        handleGetUserTemplateSlides
     )
-
+    app.patch(
+        '/api/users/:userId/templates/:templateId/slides',
+        validateSchema(PatchUserTemplateSchema),
+        deserializeUser,
+        handlePatchSlides
+    )
     app.post(
         '/api/users/:id/templates/',
         validateSchema(PostUserTemplateSchema),
         deserializeUser,
         handleCreateUserTemplate
     )
-
+    app.delete(
+        '/api/users/:id/templates/:templateId',
+        validateSchema(DeleteUserTemplateSchema),
+        deserializeUser
+    )
     //SESSION
     app.get(
         '/api/sessions',

@@ -40,6 +40,7 @@ export type UserTemplateResponse = {
         img: string
         id: number
         name: string
+        slideAmount: number
     }
     name: string | null
     createdOn: string | null
@@ -63,7 +64,7 @@ export type SlideResponse = {
     id: number
     templateId: number
     slideNumber: number
-    slideFields: SlideFieldResponse[]
+    fields: SlideFieldResponse[]
 }
 
 export interface SingleUserTemplateResponse

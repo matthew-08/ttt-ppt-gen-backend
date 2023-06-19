@@ -81,7 +81,7 @@ const handleGetUserTemplateSlides = async (
     const input = req.params
     const userTemplateSlides =
         await database.templates.slides.getUserTemplateSlides(input)
-    return userTemplateSlides
+    return res.status(200).send(userTemplateSlides)
 }
 
 export {
@@ -90,4 +90,5 @@ export {
     handleGetAllUserTemplates,
     handleCreateUserTemplate,
     handleGetUserTemplate,
+    handleGetUserTemplateSlides,
 }

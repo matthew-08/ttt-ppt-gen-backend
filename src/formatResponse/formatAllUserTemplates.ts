@@ -10,6 +10,7 @@ const formatAllUserTemplates = (
             id: number
             name: string
             img: string
+            slide_amount: number
         }
         user_id: number
     }[]
@@ -23,7 +24,8 @@ const formatAllUserTemplates = (
             templateInfo: {
                 id: template.ppt_template.id,
                 img: template.ppt_template.img,
-                name: template.ppt_template.img,
+                name: template.ppt_template.name,
+                slideAmount: template.ppt_template.slide_amount,
             },
         }
     })
