@@ -7,6 +7,7 @@ import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetAllUserTemplatesInput } from '../types'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 import { request } from 'http'
+import { DeleteUserTemplateSchemaInput } from '../schema/deleteUserTemplate.schema'
 
 type DeserializedUser = {
     user: {
@@ -84,6 +85,17 @@ const handleGetUserTemplateSlides = async (
     return res.status(200).send(userTemplateSlides)
 }
 
+const handleDeleteUserTemplate = async (
+    req: Request<DeleteUserTemplateSchemaInput>,
+    res: Response<{}, DeserializedUser>
+) => {
+    const input = req.body
+    await database.templates.deleteUserTemplate(input)
+    return res.status(200).send({
+        message: 'Template deleted',
+    })
+}
+
 export {
     handleGetAllTemplates,
     handleCreateTemplate,
@@ -91,4 +103,5 @@ export {
     handleCreateUserTemplate,
     handleGetUserTemplate,
     handleGetUserTemplateSlides,
+    handleDeleteUserTemplate,
 }

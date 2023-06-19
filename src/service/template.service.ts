@@ -4,6 +4,7 @@ import objectEntries from '../utils/objEntries'
 import * as util from 'util'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
+import { DeleteUserTemplateSchemaInput } from '../schema/deleteUserTemplate.schema'
 
 const getAllTemplatesService = async () => {
     const templates = await prismaClient.ppt_template.findMany({
@@ -147,10 +148,34 @@ const getUserTemplateSlidesService = async ({
     })
 }
 
+const deleteUserTemplateService = async ({
+    templateId,
+    userId,
+}: DeleteUserTemplateSchemaInput) => {
+    await prismaClient.user_ppt_slide_field.deleteMany({
+        where: {
+            user_ppt_template_slide: {
+                template_id: templateId,
+            },
+        },
+    })
+    await prismaClient.user_ppt_template_slide.deleteMany({
+        where: {
+            template_id: templateId,
+        },
+    })
+    await prismaClient.user_ppt_template.delete({
+        where: {
+            id: templateId,
+        },
+    })
+}
+
 export {
     getTemplateService,
     getAllUserTemplatesService,
     getAllTemplatesService,
     getUserTemplateService,
     getUserTemplateSlidesService,
+    deleteUserTemplateService,
 }

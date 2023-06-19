@@ -2,6 +2,7 @@ import { Express, Request, Response } from 'express'
 import {
     handleCreateTemplate,
     handleCreateUserTemplate,
+    handleDeleteUserTemplate,
     handleGetAllTemplates,
     handleGetAllUserTemplates,
     handleGetUserTemplate,
@@ -79,7 +80,8 @@ const appRoutes = (app: Express) => {
     app.delete(
         '/api/users/:id/templates/:templateId',
         validateSchema(DeleteUserTemplateSchema),
-        deserializeUser
+        deserializeUser,
+        handleDeleteUserTemplate
     )
     //SESSION
     app.get(

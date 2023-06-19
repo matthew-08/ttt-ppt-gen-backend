@@ -1,12 +1,14 @@
 import formatAllTemplates from '../formatResponse/formatAllTemplates'
 import formatAllUserTemplates from '../formatResponse/formatAllUserTemplates'
 import formatUserTemplateSlides from '../formatResponse/formatUserTemplateSlides'
+import { DeleteUserTemplateSchemaInput } from '../schema/deleteUserTemplate.schema'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
 import { PatchUserTemplateInput } from '../schema/patchUserTemplate.schema'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { PostUserInput } from '../schema/user.schema'
 import { patchSlidesService } from '../service/slide.service'
 import {
+    deleteUserTemplateService,
     getAllTemplatesService,
     getAllUserTemplatesService,
     getTemplateService,
@@ -57,6 +59,9 @@ const database = {
         async getUserTemplate(input: GetUserTemplateParams) {
             const userTemplate = await getUserTemplateService(input)
             return userTemplate
+        },
+        async deleteUserTemplate(input: DeleteUserTemplateSchemaInput) {
+            return await deleteUserTemplateService(input)
         },
         slides: {
             async getUserTemplateSlides(input: GetUserTemplateParams) {
