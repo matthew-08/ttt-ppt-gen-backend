@@ -5,4 +5,3 @@ config
 config/*
 ./src/ppt
 ./src/ppt/*
-ppt
