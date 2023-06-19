@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-    "build": "tsc --build tsconfig.json && cp -r ./src/ppt ./dist",
+    "build": "tsc --build tsconfig.json && cp -r ./src/ppt ./dist && cp -r ./src/output ./dist",
     "start": "node dist"
   },
   "author": "",
