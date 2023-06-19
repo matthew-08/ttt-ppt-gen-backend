@@ -145,5 +145,6 @@ export const handleGenTemplate = async <
         .then((res) => extractQuestionSlides(res))
     writeToSlides(slides, userTemplate, selectedTemplate)
     await presentation.applySlideChanges()
+    console.log(__dirname)
     await presentation.generateNewPPT(path.join(__dirname, '../output/temp'))
 }
