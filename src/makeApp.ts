@@ -10,8 +10,9 @@ const makeApp = (appDatabase: typeof database) => {
     applyMiddleware(app)
 
     const server = http.createServer(app)
-    server.listen(env.port, () => {
-        console.log(`Server is listening on ${env.port}`)
+    const port = Number(process.env.PORT) || 3000
+    server.listen(port, '0.0.0.0', () => {
+        console.log(`Server listening on ${port}`)
     })
 
     appRoutes(app)
