@@ -27,7 +27,7 @@
     "express-session": "^1.17.3",
     "prettier": "^2.8.8",
     "supertest": "^6.3.3",
-    "ts_ppt_text": "^1.2.5",
+    "ts_ppt_text": "^1.2.6",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4",
     "validator": "^13.9.0",
