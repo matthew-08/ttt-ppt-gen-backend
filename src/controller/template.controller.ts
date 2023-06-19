@@ -86,7 +86,7 @@ const handleGetUserTemplateSlides = async (
 }
 
 const handleDeleteUserTemplate = async (
-    req: Request<DeleteUserTemplateSchemaInput>,
+    req: Request<{}, {}, DeleteUserTemplateSchemaInput>,
     res: Response<{}, DeserializedUser>
 ) => {
     const input = req.body
