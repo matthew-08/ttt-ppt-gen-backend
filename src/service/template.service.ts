@@ -100,8 +100,6 @@ const getAllUserTemplatesService = async ({ id }: GetAllUserTemplatesInput) => {
             },
         },
     })
-    console.log('TEST')
-    console.log(test)
     return test
 }
 
