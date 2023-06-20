@@ -103,16 +103,20 @@ const writeHandler = (
     userTemplate: UserTemplate,
     slide: Slide
 ) => {
-    const keys = Object.keys(userTemplate) as unknown as (keyof UserTemplate)[]
-    console.log(keys)
-    keys.forEach((key) => {
-        const id = template['format'][key]
-        if (id) {
-            slide.editTextNode(id.toString(), userTemplate[key] as string)
+    if (userTemplate) {
+        const keys = Object.keys(
+            userTemplate
+        ) as unknown as (keyof UserTemplate)[]
+        console.log(keys)
+        keys.forEach((key) => {
+            const id = template['format'][key]
+            if (id) {
+                slide.editTextNode(id.toString(), userTemplate[key] as string)
+            }
+        })
+        if (template.id === 4) {
+            slide.editTextNode('2', ' ')
         }
-    })
-    if (template.id === 4) {
-        slide.editTextNode('2', ' ')
     }
 }
 
