@@ -46,7 +46,6 @@ const appRoutes = (app: Express) => {
     app.post('/api/users', validateSchema(UserSchema), handleCreateUser)
 
     //USERS/:ID/TEMPLATES
-    //USERS/:ID/TEMPLATES/:ID
     app.get(
         '/api/users/:id/templates',
         validateSchema(GetUserTemplatesSchema),
@@ -59,13 +58,21 @@ const appRoutes = (app: Express) => {
         deserializeUser,
         handleCreateUserTemplate
     )
+    //USERS/:ID/TEMPLATES/:ID
     app.get(
         '/api/users/:userId/templates/:templateId',
         validateSchema(GetUserTemplateSchema),
         deserializeUser,
         handleGetUserTemplate
     )
+    app.delete(
+        '/api/users/:id/templates/:templateId',
+        validateSchema(DeleteUserTemplateSchema),
+        deserializeUser,
+        handleDeleteUserTemplate
+    )
 
+    //SLIDES
     //USERS/:ID/TEMPLATES/:ID/SLIDES
     app.get(
         '/api/users/:userId/templates/:templateId/slides',
@@ -79,14 +86,8 @@ const appRoutes = (app: Express) => {
         deserializeUser,
         handlePatchSlides
     )
-    app.delete(
-        '/api/users/:id/templates/:templateId',
-        validateSchema(DeleteUserTemplateSchema),
-        deserializeUser,
-        handleDeleteUserTemplate
-    )
 
-    //SESSION
+    //SESSIONS
     app.get(
         '/api/sessions',
         validateSchema(SessionSchema),

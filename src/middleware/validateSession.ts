@@ -17,16 +17,13 @@ const validateSession = async (
             'Invalid email',
             '/api/session'
         )
-        console.log(error)
         res.status(400).json(error)
     } else {
         const valid = await passCompare(plaintextPassword, user.passhash)
         if (valid) {
-            console.log('VALID')
             res.locals.id = user.id
             next()
         } else {
-            console.log('INVALID')
             res.status(400).send('Invalid password')
         }
     }

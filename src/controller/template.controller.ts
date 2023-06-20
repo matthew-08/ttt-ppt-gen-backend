@@ -6,9 +6,7 @@ import { handleGenTemplate } from '../utils/genPpt'
 import { PostUserTemplateInput } from '../schema/postUserTemplate.schema'
 import { GetAllUserTemplatesInput } from '../types'
 import { GetUserTemplateParams } from '../schema/getUserTemplate.schema'
-import { request } from 'http'
 import { DeleteUserTemplateSchemaInput } from '../schema/deleteUserTemplate.schema'
-import * as fs from 'fs/promises'
 
 type DeserializedUser = {
     user: {
@@ -28,18 +26,10 @@ const handleCreateTemplate = async (
     req: Request<{}, {}, PostTemplateInput>,
     res: Response<{}, DeserializedUser>
 ) => {
-    console.log(res.locals.user)
-
     const { templateId, templateInput } = req.body
 
     await handleGenTemplate(templateId, templateInput)
     const filepath = path.join(__dirname, '../output/temp.pptx')
-    /* const files = await fs.readdir('../output')
-    files.forEach((f) => {
-        console.log(f)
-    }) */
-    console.log(__dirname)
-    console.log('DIRNAME')
     res.status(200).download(filepath)
 }
 
@@ -75,7 +65,6 @@ const handleGetUserTemplate = async (
     res: Response<{}, DeserializedUser>
 ) => {
     const input = req.params
-    console.log('test')
     const userTemplate = await database.templates.getUserTemplate(input)
     return res.status(200).send()
 }

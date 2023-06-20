@@ -8,7 +8,7 @@ const handlePatchSlides = async (
 ) => {
     const input = req.body
     await database.templates.slides.patchSlides(input)
-    return res.status(200).send('ok')
+    return res.status(200).send('OK')
 }
 
 export { handlePatchSlides }
