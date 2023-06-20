@@ -121,9 +121,10 @@ const writeToSlides = async (
     userTemplate: UserTemplate[],
     template: (typeof templates)[number]
 ) => {
+    console.log('write to slides user template')
+    console.log(userTemplate)
     slides.forEach((slide, index) => {
         const nodes = Object.values(slide.textNodes)
-        console.log(userTemplate)
         writeHandler(template, nodes, userTemplate[index], slide)
     })
 }
