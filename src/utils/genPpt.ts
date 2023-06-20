@@ -104,6 +104,7 @@ const writeHandler = (
     slide: Slide
 ) => {
     const keys = Object.keys(userTemplate) as unknown as (keyof UserTemplate)[]
+    console.log(keys)
     keys.forEach((key) => {
         const id = template['format'][key]
         if (id) {
@@ -122,6 +123,7 @@ const writeToSlides = async (
 ) => {
     slides.forEach((slide, index) => {
         const nodes = Object.values(slide.textNodes)
+        console.log(userTemplate)
         writeHandler(template, nodes, userTemplate[index], slide)
     })
 }
