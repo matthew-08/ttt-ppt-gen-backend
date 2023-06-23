@@ -136,7 +136,6 @@ export const handleGenTemplate = async <
     templateId: T,
     userTemplate: UserTemplate[]
 ) => {
-    console.log('hanlding gen ppt')
     const selectedTemplate = templates.find((t) => t.id === templateId)
     if (!selectedTemplate) {
         return

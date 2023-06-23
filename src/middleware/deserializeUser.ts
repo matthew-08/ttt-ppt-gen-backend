@@ -9,11 +9,14 @@ const deserializeUser = async (
     next: NextFunction
 ) => {
     if (!req.headers.authorization) {
+        console.log(req.headers, 'TEST')
         return res.status(400).send('No authorization header')
     }
     const headerToken = getTokenFromHeader(req.headers.authorization)
     const deserializedToken = await verifyJwt(headerToken)
     if (deserializedToken.expired || !deserializedToken.decodedPayload) {
+        console.log(deserializedToken)
+
         return res.status(401).send('Session expired')
     }
     res.locals.user = deserializedToken.decodedPayload

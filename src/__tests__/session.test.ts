@@ -4,6 +4,7 @@ import * as jwtModule from '../utils/jwt'
 import * as passCompare from '../utils/passCompare'
 import * as userService from '../service/user.service'
 import { UserCreateSessionInput } from '../schema/session.schema'
+import { getTokenFromHeader } from '../utils/getTokenFromHeader'
 
 const sessionsEndpoint = '/api/sessions'
 
@@ -44,25 +45,30 @@ describe('/api/sessions', () => {
         })
         describe('Given valid schema', () => {
             beforeEach(() => {
-                jest.spyOn(jwtModule, 'verifyJwt').mockReturnValue({
-                    decodedPayload: {
-                        id: 2,
-                    },
-                    expired: false,
-                    valid: true,
-                })
+                jest.spyOn(jwtModule, 'verifyJwt').mockImplementation(() =>
+                    Promise.resolve({
+                        decodedPayload: {
+                            user: {
+                                id: 2,
+                            },
+                        },
+                        expired: false,
+                        valid: true,
+                    })
+                )
             })
             it('returns status code 200', async () => {
                 await supertest(app)
                     .get(sessionsEndpoint)
-                    .set('Authorization', 'Bearer')
+                    .set('Authorization', 'Bearer 23232')
+                    .expect(200)
             })
             it('returns the users id', async () => {
                 await supertest(app)
-                    .get('/api/session')
+                    .get(sessionsEndpoint)
                     .set('Authorization', 'Bearer')
                     .then((res) => {
-                        expect(res.body.id).toBe(2)
+                        expect(res.body.user.id).toBe(2)
                     })
             })
         })

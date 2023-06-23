@@ -13,7 +13,7 @@ const handleGetSession = (
         }
     >
 ) => {
-    if (!res.locals.user.id) {
+    if (res.locals.user.id) {
         return res.status(401).send('Not authorized')
     }
     return res.status(200).send(res.locals.user)
