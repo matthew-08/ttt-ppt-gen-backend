@@ -1,7 +1,9 @@
 import supertest from 'supertest'
 import { app, server } from '..'
-import { CreateUserInput } from '../schema/user.schema'
+import { PostUserInput } from '../schema/user.schema'
 import * as UserService from '../service/user.service'
+
+const usersEndpoint = '/api/users'
 
 describe('/user endpoint', () => {
     beforeEach(() => {
@@ -20,20 +22,20 @@ describe('/user endpoint', () => {
                     id: 1,
                 })
             })
-            const validUser: CreateUserInput = {
+            const validUser: PostUserInput = {
                 email: 'avalidemail@gmail.com',
                 password: 'ThisIsAValidPassword*#33',
                 confirmPassword: 'ThisIsAValidPassword*#33',
             }
             it('returns a 200 status code', async () => {
                 await supertest(app)
-                    .post('/api/user')
+                    .post(usersEndpoint)
                     .send(validUser)
                     .expect(200)
             })
             it('returns an access token', () => {
                 return supertest(app)
-                    .post('/api/user')
+                    .post(usersEndpoint)
                     .send(validUser)
                     .then((res) => {
                         expect(res.body.accessToken).toBeDefined()
@@ -48,40 +50,40 @@ describe('/user endpoint', () => {
                 }
                 it('sends a status 400 error code', async () => {
                     await supertest(app)
-                        .post('/api/user')
+                        .post(usersEndpoint)
                         .send(invalidUser)
                         .expect(400)
                 })
             })
             describe('given invalid email', () => {
-                const invalidUser: CreateUserInput = {
+                const invalidUser: PostUserInput = {
                     confirmPassword: 'Password123?',
                     password: 'Password123?',
                     email: 'user123.com',
                 }
                 it('sends a status 400 error code', async () => {
                     await supertest(app)
-                        .post('/api/user')
+                        .post(usersEndpoint)
                         .send(invalidUser)
                         .expect(400)
                 })
             })
             describe('given invalid password', () => {
-                const invalidUser: CreateUserInput = {
+                const invalidUser: PostUserInput = {
                     confirmPassword: 'pass',
                     password: 'pass',
                     email: 'user123@gmail.com',
                 }
                 it('sends a status 400 error code', async () => {
                     await supertest(app)
-                        .post('/api/user')
+                        .post(usersEndpoint)
                         .send(invalidUser)
                         .expect(400)
                 })
             })
         })
         describe('User enters an email which already exists', () => {
-            const validUser: CreateUserInput = {
+            const validUser: PostUserInput = {
                 confirmPassword: 'Password123@g',
                 password: 'Password123@g',
                 email: 'user123@gmail.com',
@@ -94,7 +96,7 @@ describe('/user endpoint', () => {
                     passhash: 'test',
                 })
                 await supertest(app)
-                    .post('/api/user')
+                    .post(usersEndpoint)
                     .send(validUser)
                     .expect(400)
             })
