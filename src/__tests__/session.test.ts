@@ -4,6 +4,7 @@ import * as jwtModule from '../utils/jwt'
 import * as passCompare from '../utils/passCompare'
 import * as userService from '../service/user.service'
 import { UserCreateSessionInput } from '../schema/session.schema'
+import mockValidJwt from './__mocks__/mockJwt'
 
 const sessionsEndpoint = '/api/sessions'
 
@@ -44,17 +45,9 @@ describe('/api/sessions', () => {
         })
         describe('Given valid schema', () => {
             beforeEach(() => {
-                jest.spyOn(jwtModule, 'verifyJwt').mockImplementation(() =>
-                    Promise.resolve({
-                        decodedPayload: {
-                            user: {
-                                id: 2,
-                            },
-                        },
-                        expired: false,
-                        valid: true,
-                    })
-                )
+                mockValidJwt({
+                    userId: 2,
+                })
             })
             it('returns status code 200', async () => {
                 await supertest(app)

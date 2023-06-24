@@ -12,11 +12,7 @@ describe('/api/template', () => {
     afterEach(() => {
         server.close()
     })
-    describe('GET', () => {
-        it('placeholder', () => {
-            expect(true).toBe(true)
-        })
-    })
+
     describe('POST', () => {
         describe('Given invalid data', () => {
             describe('Given a nonexistant template', () => {
