@@ -4,7 +4,6 @@ import * as jwtModule from '../utils/jwt'
 import * as passCompare from '../utils/passCompare'
 import * as userService from '../service/user.service'
 import { UserCreateSessionInput } from '../schema/session.schema'
-import { getTokenFromHeader } from '../utils/getTokenFromHeader'
 
 const sessionsEndpoint = '/api/sessions'
 
