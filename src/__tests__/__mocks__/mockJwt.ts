@@ -14,4 +14,14 @@ const mockValidJwt = ({ userId }: { userId: number }) => {
     )
 }
 
+export const mockInvalidJwt = ({ userId }: { userId: number }) => {
+    return jest.spyOn(jwtModule, 'verifyJwt').mockImplementation(() =>
+        Promise.resolve({
+            decodedPayload: null,
+            expired: true,
+            valid: false,
+        })
+    )
+}
+
 export default mockValidJwt

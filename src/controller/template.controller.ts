@@ -87,6 +87,7 @@ const handleDeleteUserTemplate = async (
     await database.templates.deleteUserTemplate(input)
     return res.status(200).send({
         message: 'Template deleted',
+        templateId: input.templateId,
     })
 }
 
