@@ -1,8 +1,10 @@
 import { template } from '@babel/core'
 import supertest from 'supertest'
 import { server, app } from '..'
-import mockValidJwt from './__mocks__/mockJwt'
+import mockValidJwt, { mockInvalidJwt } from './__mocks__/mockJwt'
 import * as templateService from '../service/template.service'
+import { PatchUserTemplateInput } from '../schema/patchUserTemplate.schema'
+import * as slideService from '../service/slide.service'
 
 const slidesEndpoint = ({
     templateId,
@@ -26,7 +28,7 @@ describe('/api/users/:userId/templates/:templateId/slides', () => {
                     userId: 100,
                 })
             })
-            it('should return status code 200', async () => {
+            it('should send an array of slides templates and status code 200', async () => {
                 jest.spyOn(
                     templateService,
                     'getUserTemplateSlidesService'
@@ -42,17 +44,6 @@ describe('/api/users/:userId/templates/:templateId/slides', () => {
                     .get(
                         slidesEndpoint({
                             templateId: 4,
-                            userId: 100,
-                        })
-                    )
-                    .set('Authorization', 'Bearer 155')
-                    .expect(200)
-            })
-            it('should send an array of slides templates', async () => {
-                await supertest(app)
-                    .get(
-                        slidesEndpoint({
-                            templateId: 4,
                             userId: 3,
                         })
                     )
@@ -61,8 +52,60 @@ describe('/api/users/:userId/templates/:templateId/slides', () => {
                     .then((res) => {
                         expect(res.body).toBeInstanceOf(Array)
                         expect(res.body[0]).toBeInstanceOf(Object)
-                        expect(res.body[0].templateId).toBeDefined()
+                        expect(res.body[0].templateId).toBeDefined
                     })
+            })
+        })
+        describe('given invalid input', () => {
+            describe('given invalid or missing JWT', () => {
+                it('it returns a status code 401', async () => {
+                    mockInvalidJwt({
+                        userId: 3,
+                    })
+                    await supertest(app)
+                        .get(
+                            slidesEndpoint({
+                                templateId: 4,
+                                userId: 3,
+                            })
+                        )
+                        .set('Authorization', 'Bearer 124')
+                        .expect(401)
+                })
+            })
+        })
+    })
+    describe('PATCH', () => {
+        describe('given valid input', () => {
+            beforeEach(() => {
+                mockValidJwt({
+                    userId: 3,
+                })
+            })
+            const validInput: PatchUserTemplateInput = {
+                templateId: 4,
+                updatedSlides: [
+                    {
+                        fields: [{ content: 'hello world', id: 3 }],
+                        id: 3,
+                    },
+                ],
+            }
+            it('returns status code 200', async () => {
+                jest.spyOn(
+                    slideService,
+                    'patchSlidesService'
+                ).mockResolvedValue()
+                await supertest(app)
+                    .patch(
+                        slidesEndpoint({
+                            templateId: 4,
+                            userId: 3,
+                        })
+                    )
+                    .set('Authorization', 'Bearer 15')
+                    .send(validInput)
+                    .expect(200)
             })
         })
     })
