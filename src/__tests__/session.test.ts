@@ -4,10 +4,11 @@ import * as jwtModule from '../utils/jwt'
 import * as passCompare from '../utils/passCompare'
 import * as userService from '../service/user.service'
 import { UserCreateSessionInput } from '../schema/session.schema'
+import mockValidJwt from './__mocks__/mockJwt'
 
-const sessionEndpint = '/api/session'
+const sessionsEndpoint = '/api/sessions'
 
-describe('/api/session', () => {
+describe('/api/sessions', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })
@@ -18,7 +19,7 @@ describe('/api/session', () => {
         describe('Given invalid schema', () => {
             describe('Given request with no auth header', () => {
                 it('returns status code 400', async () => {
-                    await supertest(app).get('/api/session').expect(400)
+                    await supertest(app).get(sessionsEndpoint).expect(400)
                 })
             })
             describe('Given request with invalid auth header format', () => {
@@ -37,32 +38,29 @@ describe('/api/session', () => {
                     valid: false,
                 })
                 await supertest(app)
-                    .get('/api/session')
+                    .get(sessionsEndpoint)
                     .set('Authorization', 'Bearer')
                     .expect(401)
             })
         })
         describe('Given valid schema', () => {
             beforeEach(() => {
-                jest.spyOn(jwtModule, 'verifyJwt').mockReturnValue({
-                    decodedPayload: {
-                        id: 2,
-                    },
-                    expired: false,
-                    valid: true,
+                mockValidJwt({
+                    userId: 2,
                 })
             })
             it('returns status code 200', async () => {
                 await supertest(app)
-                    .get('/api/session')
-                    .set('Authorization', 'Bearer')
+                    .get(sessionsEndpoint)
+                    .set('Authorization', 'Bearer 23232')
+                    .expect(200)
             })
             it('returns the users id', async () => {
                 await supertest(app)
-                    .get('/api/session')
+                    .get(sessionsEndpoint)
                     .set('Authorization', 'Bearer')
                     .then((res) => {
-                        expect(res.body.id).toBe(2)
+                        expect(res.body.user.id).toBe(2)
                     })
             })
         })
@@ -71,13 +69,15 @@ describe('/api/session', () => {
         describe('Given incorrect password', () => {
             it('returns a status code 400', async () => {
                 jest.spyOn(passCompare, 'passCompare').mockRejectedValue(false)
-                await supertest(app).post('/api/session/').expect(400)
+                await supertest(app).post(sessionsEndpoint).expect(400)
             })
         })
         describe('Given invalid (nonexistant) email', () => {
             it('returns a status code 400', async () => {
-                jest.spyOn(userService, 'getUser').mockResolvedValue(null)
-                await supertest(app).post('/api/session').expect(400)
+                jest.spyOn(userService, 'getUserService').mockResolvedValue(
+                    null
+                )
+                await supertest(app).post(sessionsEndpoint).expect(400)
             })
         })
         describe('Given valid data', () => {
@@ -87,7 +87,7 @@ describe('/api/session', () => {
             }
             beforeEach(() => {
                 jest.spyOn(passCompare, 'passCompare').mockResolvedValue(true)
-                jest.spyOn(userService, 'getUser').mockResolvedValue({
+                jest.spyOn(userService, 'getUserService').mockResolvedValue({
                     email: 'test@gmail.com',
                     id: 3,
                     passhash: 'passhash',
@@ -95,7 +95,7 @@ describe('/api/session', () => {
             })
             it('returns a status code 200', async () => {
                 await supertest(app)
-                    .post('/api/session')
+                    .post(sessionsEndpoint)
                     .send(validUser)
                     .expect(200)
             })

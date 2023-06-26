@@ -7,7 +7,7 @@ export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
     })
 }
 
-export function verifyJwt(token: string) {
+export async function verifyJwt(token: string) {
     try {
         const decodedPayload = jwt.verify(token, appEnv.jwtSecretKey)
         return {
